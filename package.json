@@ -1,7 +1,7 @@
 {
   "name": "grace_shopper",
   "version": "2.0.0",
-  "description": "Grace Shopping!",
+  "description": "hello world! Grace Shopping! ",
   "main": "index.js",
   "scripts": {
     "build": "webpack",
