@@ -4,7 +4,6 @@ const db = require("./db");
 
 const User = require("./models/User");
 const Product = require("./models/Products");
-const Cart = require("./models/Cart");
 
 //associations could go here!
 // User.hasOne(Cart);
