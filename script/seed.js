@@ -15,8 +15,12 @@ async function seed() {
 
   // Creating Users
   const users = await Promise.all([
-    User.create({ username: "cody", password: "123" }),
-    User.create({ username: "murphy", password: "123" }),
+    User.create({ username: "cody", password: "123", status: "user" }),
+    User.create({ username: "murphy", password: "123", status: "admin" }),
+    User.create({ username: "john", password: "123", status: "engineer" }),
+    User.create({ username: "amy", password: "123", status: "admin" }),
+    User.create({ username: "stacy", password: "123", status: "user" }),
+    User.create({ username: "TomBrady", password: "123", status: "engineer" }),
   ]);
 
   // Creating Product
@@ -26,7 +30,7 @@ async function seed() {
       price: 99.99,
       imageUrl: "https://m.media-amazon.com/images/I/71MJ3OaVqBL.jpg",
       description: "A great comfortable headset for an UNBEATABLE price!",
-      quantityInStock: 10,
+      stock: 10,
     }),
     Product.create({
       name: "Logitech Headset",
@@ -34,7 +38,34 @@ async function seed() {
       imageUrl:
         "https://cdn.shopify.com/s/files/1/0252/9705/9876/products/5_1_dcb1c1c1-6d88-420e-bff3-32eb5ef35077_1200x.png?v=1631134068",
       description: "A great comfortable headset for a actual BEATABLE price!",
-      quantityInStock: 25,
+      stock: 25,
+    }),
+    Product.create({
+      name: "SteelSeries Keyboard",
+      price: 129.99,
+      imageUrl:
+        "https://media.steelseriescdn.com/thumbs/catalog/items/64847/a0bc32930344430a86be030026292d14.png.350x280_q100_crop-fit_optimize.png",
+      description:
+        "Newest KeyBoard from steelseries. the BEST GAMING KEYBOARD!",
+      stock: 100,
+    }),
+    Product.create({
+      name: "Strange Gaming Mouse",
+      price: 300.0,
+      imageUrl:
+        "https://assets.hongkiat.com/uploads/creative-unusual-mice/man_body.jpg?newedit",
+      description:
+        "A strange mouse from a even stranger land. seems to resemble the physique of a human male.",
+      stock: 3,
+    }),
+    Product.create({
+      name: "Optical Ferrari Car Mouse",
+      price: 500.0,
+      imageUrl:
+        "https://assets.hongkiat.com/uploads/creative-unusual-mice/ferrari_mouse.jpg?newedit",
+      description:
+        "Car 3D optical mouse looks like real Ferrari sports car that will appeal to all racing fans. LED lights in car running lights looks fancy.",
+      stock: 500,
     }),
   ]);
 
