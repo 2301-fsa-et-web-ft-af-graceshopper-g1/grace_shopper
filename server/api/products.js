@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { Product } = require("../db/models/Products");
 
 //Get all products
 router.get("/", async (req, res, next) => {
@@ -65,5 +66,7 @@ router.delete("/:id", async (req, res, next) => {
     next(error);
   }
 });
+
+module.exports = router;
 
 module.exports = router;
