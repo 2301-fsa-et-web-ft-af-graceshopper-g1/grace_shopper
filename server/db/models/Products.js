@@ -24,7 +24,7 @@ const Product = db.define("product", {
     type: Sequelize.TEXT,
     defaultValue: "No description for this item",
   },
-  quantityInStock: {
+  stock: {
     type: Sequelize.INTEGER,
     allowNull: false,
     validate: {
@@ -33,4 +33,4 @@ const Product = db.define("product", {
   },
 });
 
-module.exports = Product;
+module.exports = { Product };
