@@ -6,6 +6,8 @@ import Home from "../features/home/Home";
 import { me } from "./store";
 import Products from "../features/products";
 import MyCart from "../features/myCart/MyCart";
+import AddProduct from "../features/products/addProduct";
+import EditProduct from "../features/products/editProduct";
 import Checkout from "../features/checkout/Checkout";
 
 /**
@@ -28,6 +30,8 @@ const AppRoutes = () => {
           <Route to="/home" element={<Home />} />
           <Route path="/products" element={<Products />} />
           <Route path="/cart" element={<MyCart />} />
+          <Route path="/addProduct" element={<AddProduct />} />
+          <Route path="/editProduct" element={<EditProduct />} />
           <Route path="/checkout" element={<Checkout />} />
         </Routes>
       ) : (
