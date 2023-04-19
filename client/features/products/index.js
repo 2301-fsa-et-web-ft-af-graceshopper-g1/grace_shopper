@@ -17,18 +17,19 @@ const Products = () => {
       {products.map((product) => {
         return (
           <div key={product.id}>
-            <strong>{product.name}</strong>
+            <Link to={`/products/${product.id}`}>
+              <strong>{product.name}</strong>
+            </Link>
             <div>
-              <img
-                src={product.imageUrl}
-                alt={product.name}
-                style={{ width: "100px", height: "100px" }}
-              ></img>
+              <Link to={`/products/${product.id}`}>
+                <img
+                  src={product.imageUrl}
+                  alt={product.name}
+                  style={{ width: "100px", height: "100px" }}
+                ></img>
+              </Link>
             </div>
             <div>{"$" + product.price}</div>
-            <Link to={`/products/${product.id}`}>
-              <button>View</button>
-            </Link>
           </div>
         );
       })}
