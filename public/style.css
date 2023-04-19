@@ -1,3 +1,30 @@
+:root {
+  --text-color: linear-gradient(50deg, rgb(219, 101, 255), rgb(118, 108, 255));
+}
+
+@keyframes hover-color {
+  0% {
+    background-position: left;
+    color: rgb(219, 101, 255);
+  }
+  25% {
+    background-position: top;
+    color: rgb(65, 51, 249);
+  }
+  50% {
+    background-position: center;
+    color: rgb(219, 101, 255);
+  }
+  75% {
+    background-position: bottom;
+    color: rgb(65, 51, 249);
+  }
+  100% {
+    background-position: right;
+    color: rgb(219, 101, 255);
+  }
+}
+
 body {
   font-family: sans-serif;
 }
@@ -10,12 +37,42 @@ label {
   display: block;
 }
 
+nav {
+  display: flex;
+  justify-content: center;
+}
+
 nav a {
   display: inline-block;
   margin: 1em;
+  font-family: monospace;
+  font-size: 20px;
+}
+
+nav a:hover {
+  animation: hover-color 3s infinite alternate;
+}
+
+nav button:hover {
+  animation: hover-color 3s infinite alternate;
+  cursor: pointer;
 }
 
 form div {
   margin: 1em;
   display: inline-block;
+}
+
+.products {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 10px;
+}
+
+.products-header {
+  display: block;
+  text-align: center;
+  padding: 10px;
+  font-size: 30px;
+  font-family: serif;
 }
