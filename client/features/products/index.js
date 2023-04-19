@@ -20,7 +20,7 @@ const Products = () => {
             <Link to={`/products/${product.id}`}>
               <strong>{product.name}</strong>
             </Link>
-            <strong>{product.name}</strong>
+
             <div>
               <Link to={`/products/${product.id}`}>
                 <img
