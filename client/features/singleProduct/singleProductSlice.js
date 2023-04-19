@@ -11,6 +11,11 @@ export const fetchSingleProductAsync = createAsyncThunk(
   }
 );
 
+export const addSingleProductAsync = createAsyncThunk(
+  "addSingleProduct",
+  async ({ name, price, imageUrl, description, stock }) => {}
+);
+
 export const singleProductSlice = createSlice({
   name: "singleProducts",
   initialState: {},
