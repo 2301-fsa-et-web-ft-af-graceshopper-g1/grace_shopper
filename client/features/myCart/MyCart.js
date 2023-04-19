@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const MyCart = () => {
-  
   // Dummy data - note that we want the quantity of each product
   const product1 = {
     name: "HyperX Headset",
@@ -27,45 +26,46 @@ const MyCart = () => {
     price: 129.99,
     imageUrl:
       "https://media.steelseriescdn.com/thumbs/catalog/items/64847/a0bc32930344430a86be030026292d14.png.350x280_q100_crop-fit_optimize.png",
-    description:
-      "Newest KeyBoard from steelseries. the BEST GAMING KEYBOARD!",
+    description: "Newest KeyBoard from steelseries. the BEST GAMING KEYBOARD!",
     quantity: 0,
     stock: 0,
   };
 
   // Our cart takes an array of product instances
   const products = [product1, product2, product3];
-  
+
   return (
     <div id="cart">
       <h2>Shopping Cart</h2>
-      {products && products.length
-        ? products.map(product => (
+      {products && products.length ? (
+        products.map((product) => (
           <div key="product.id">
             <Link to={`/products/${product.id}`}>
               <h3>{product.name}</h3>
             </Link>
             <img
-                src={product.imageUrl}
-                alt={product.name}
-                style={{ width: "100px", height: "100px" }}
-              />
-            {product.stock && product.stock > 0
-              ? <p>In stock</p>
-              : <p>Out of stock</p>
-            }
+              src={product.imageUrl}
+              alt={product.name}
+              style={{ width: "100px", height: "100px" }}
+            />
+            {product.stock && product.stock > 0 ? (
+              <p>In stock</p>
+            ) : (
+              <p>Out of stock</p>
+            )}
             <p>Quantity: {product.quantity}</p>
             <p>Price: {product.price}</p>
             <hr />
           </div>
         ))
-        : <p>Your cart is empty</p>
-      }
+      ) : (
+        <p>Your cart is empty</p>
+      )}
       <Link to="/checkout">
         <button>Checkout</button>
       </Link>
     </div>
-  )
-}
+  );
+};
 
 export default MyCart;
