@@ -25,7 +25,7 @@ const SingleProduct = () => {
     <div key={product.id} className="singleProductView">
       <strong>Look at this!</strong>
       <h2>{product.name}</h2>
-      <h2>$ {product.price}</h2>
+      <h2>{"$" + product.price}</h2>
       {product.imageUrl && (
         <img
           src={product.imageUrl}
