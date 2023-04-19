@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProductsAsync, selectProducts } from "./productsSlice";
+import { Link } from "react-router-dom";
 
 const Products = () => {
   const dispatch = useDispatch();
@@ -25,6 +26,9 @@ const Products = () => {
               ></img>
             </div>
             <div>{"$" + product.price}</div>
+            <Link to={`/products/${product.id}`}>
+              <button>View</button>
+            </Link>
           </div>
         );
       })}
