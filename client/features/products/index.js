@@ -13,13 +13,14 @@ const Products = () => {
 
   return (
     <div className="allProductsView">
-      <strong>All Products</strong>
+      <strong className="products-header">All Products</strong>
       {products.map((product) => {
         return (
           <div className="products" key={product.id}>
             <Link to={`/products/${product.id}`}>
               <strong>{product.name}</strong>
             </Link>
+            <strong>{product.name}</strong>
             <div>
               <Link to={`/products/${product.id}`}>
                 <img
