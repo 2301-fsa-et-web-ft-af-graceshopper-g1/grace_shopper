@@ -1,30 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchProductsAsync, selectProducts } from "./productsSlice";
 
 const Products = () => {
-  const fakeData = [
-    {
-      id: 1,
-      name: "HyperX Headset",
-      price: 99.99,
-      imageUrl: "https://m.media-amazon.com/images/I/71MJ3OaVqBL.jpg",
-      description: "A great comfortable headset for an UNBEATABLE price!",
-      quantityInStock: 10,
-    },
-    {
-      id: 2,
-      name: "Logitech Headset",
-      price: 299.99,
-      imageUrl:
-        "https://cdn.shopify.com/s/files/1/0252/9705/9876/products/5_1_dcb1c1c1-6d88-420e-bff3-32eb5ef35077_1200x.png?v=1631134068",
-      description: "A great comfortable headset for a actual BEATABLE price!",
-      quantityInStock: 25,
-    },
-  ];
+  const dispatch = useDispatch();
+  let products = useSelector(selectProducts);
+
+  useEffect(() => {
+    dispatch(fetchProductsAsync());
+  }, [dispatch]);
 
   return (
     <div className="allProductsView">
       <strong>All Products</strong>
-      {fakeData.map((product) => {
+      {products.map((product) => {
         return (
           <div key={product.id}>
             <strong>{product.name}</strong>
