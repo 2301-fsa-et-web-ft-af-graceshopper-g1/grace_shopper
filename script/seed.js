@@ -15,12 +15,12 @@ async function seed() {
 
   // Creating Users
   const users = await Promise.all([
-    User.create({ username: "cody", password: "123", status: "user" }),
-    User.create({ username: "murphy", password: "123", status: "admin" }),
-    User.create({ username: "john", password: "123", status: "engineer" }),
-    User.create({ username: "amy", password: "123", status: "admin" }),
-    User.create({ username: "stacy", password: "123", status: "user" }),
-    User.create({ username: "TomBrady", password: "123", status: "engineer" }),
+    User.create({ username: "cody", password: "123" }),
+    User.create({ username: "murphy", password: "123", isAdmin: true }),
+    User.create({ username: "john", password: "123", isEngineer: true }),
+    User.create({ username: "amy", password: "123", isAdmin: true, isEngineer: false }),
+    User.create({ username: "stacy", password: "123", isAdmin: false, isEngineer: false  }),
+    User.create({ username: "TomBrady", password: "123", isEngineer: true }),
   ]);
 
   console.log("db synced!");
