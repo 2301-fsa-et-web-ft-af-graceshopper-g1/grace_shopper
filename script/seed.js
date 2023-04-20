@@ -16,8 +16,18 @@ async function seed() {
     User.create({ username: "cody", password: "123" }),
     User.create({ username: "murphy", password: "123", isAdmin: true }),
     User.create({ username: "john", password: "123", isEngineer: true }),
-    User.create({ username: "amy", password: "123", isAdmin: true, isEngineer: false }),
-    User.create({ username: "stacy", password: "123", isAdmin: false, isEngineer: false  }),
+    User.create({
+      username: "amy",
+      password: "123",
+      isAdmin: true,
+      isEngineer: false,
+    }),
+    User.create({
+      username: "stacy",
+      password: "123",
+      isAdmin: false,
+      isEngineer: false,
+    }),
     User.create({ username: "TomBrady", password: "123", isEngineer: true }),
   ]);
 
@@ -51,7 +61,7 @@ async function seed() {
     }),
     Product.create({
       name: "Strange Gaming Mouse",
-      price: 300.00,
+      price: 300.0,
       imageUrl:
         "https://assets.hongkiat.com/uploads/creative-unusual-mice/man_body.jpg?newedit",
       description:
@@ -60,7 +70,7 @@ async function seed() {
     }),
     Product.create({
       name: "Optical Ferrari Car Mouse",
-      price: 500.00,
+      price: 500.0,
       imageUrl:
         "https://assets.hongkiat.com/uploads/creative-unusual-mice/ferrari_mouse.jpg?newedit",
       description:
@@ -75,7 +85,11 @@ async function seed() {
   const orders = await Promise.all([
     Order.create({ userId: 1, guest: false }),
     Order.create({ userId: 2, guest: false }),
-    Order.create({ userId: 4, guest: false, checkoutDate: "Tue Jul 06 2021 07:55:33" }),
+    Order.create({
+      userId: 4,
+      guest: false,
+      checkoutDate: "Tue Jul 06 2021 07:55:33",
+    }),
     Order.create({ userId: 4, guest: false }),
     Order.create(),
   ]);
@@ -83,20 +97,20 @@ async function seed() {
   console.log(`seeded ${orders.length} orders`);
 
   // Creating Order Products
-  const orderProducts = await Promise.all([
-    Order_Product.create({ orderId: 1, productId: 1, quantity: 1, price: 99.99}),
-    Order_Product.create({ orderId: 1, productId: 3, quantity: 1, price: 129.99}),
-    Order_Product.create({ orderId: 2, productId: 2, quantity: 1, price: 299.99}),
-    Order_Product.create({ orderId: 2, productId: 3, quantity: 2, price: 129.99}),
-    Order_Product.create({ orderId: 2, productId: 4, quantity: 2, price: 300.00}),
-    Order_Product.create({ orderId: 3, productId: 5, quantity: 10, price: 500.00}),
-    Order_Product.create({ orderId: 4, productId: 5, quantity: 1, price: 500.00}),
-    Order_Product.create({ orderId: 5, productId: 1, quantity: 1, price: 99.99}),
-    Order_Product.create({ orderId: 5, productId: 2, quantity: 1, price: 299.99}),
-    Order_Product.create({ orderId: 5, productId: 3, quantity: 2, price: 129.99}),
-  ]);
+  // const orderProducts = await Promise.all([
+  //   Order_Product.create({ orderId: 1, productId: 1, quantity: 1, price: 99.99}),
+  //   Order_Product.create({ orderId: 1, productId: 3, quantity: 1, price: 129.99}),
+  //   Order_Product.create({ orderId: 2, productId: 2, quantity: 1, price: 299.99}),
+  //   Order_Product.create({ orderId: 2, productId: 3, quantity: 2, price: 129.99}),
+  //   Order_Product.create({ orderId: 2, productId: 4, quantity: 2, price: 300.00}),
+  //   Order_Product.create({ orderId: 3, productId: 5, quantity: 10, price: 500.00}),
+  //   Order_Product.create({ orderId: 4, productId: 5, quantity: 1, price: 500.00}),
+  //   Order_Product.create({ orderId: 5, productId: 1, quantity: 1, price: 99.99}),
+  //   Order_Product.create({ orderId: 5, productId: 2, quantity: 1, price: 299.99}),
+  //   Order_Product.create({ orderId: 5, productId: 3, quantity: 2, price: 129.99}),
+  // ]);
 
-  console.log(`seeded ${orderProducts.length} order products`);
+  // console.log(`seeded ${orderProducts.length} order products`);
 
   console.log(`
     seeded successfully
