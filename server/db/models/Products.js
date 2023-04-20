@@ -38,9 +38,11 @@ module.exports = { Product };
 /**
  * classMethods
  */
-Product.addQty = async function ({ qty, productId }) {
-  const product = await this.findOne({ where: { productId } });
-  return (product.stock += qty);
-};
+
+// Potential method for sending a qty and productId that can be used to add / subtract from stock 
+// Product.addQty = async function ({ qty, productId }) {
+//   const product = await this.findOne({ where: { productId } });
+//   return (product.stock += qty);
+// };
 
 // Need to add method for adding product to cart
