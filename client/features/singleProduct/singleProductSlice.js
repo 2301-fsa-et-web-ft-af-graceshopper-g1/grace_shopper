@@ -39,6 +39,32 @@ export const addSingleProductAsync = createAsyncThunk(
   }
 );
 
+export const updateSingleProductAsync = createAsyncThunk(
+  "updateSingleProduct",
+  async ({ id, name, price, imageUrl, description, stock }) => {
+    const token = localStorage.getItem("token");
+    try {
+      await axios.put(
+        `http://localhost:8080/api/products/${id}`,
+        {
+          name,
+          price,
+          imageUrl,
+          description,
+          stock,
+        },
+        {
+          headers: {
+            authorization: `${token}`,
+          },
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 export const singleProductSlice = createSlice({
   name: "singleProducts",
   initialState: {},

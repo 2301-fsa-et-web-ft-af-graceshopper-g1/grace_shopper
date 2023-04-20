@@ -52,7 +52,7 @@ const AddProduct = () => {
           onChange={(e) => setProductImageUrl(e.target.value)}
         />
         <label htmlFor="description">Product Description:</label>
-        <input
+        <textarea
           name="description"
           value={description}
           onChange={(e) => setProductDescription(e.target.value)}
