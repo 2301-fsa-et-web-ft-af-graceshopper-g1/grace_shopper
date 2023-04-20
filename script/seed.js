@@ -60,7 +60,7 @@ async function seed() {
     }),
     Product.create({
       name: "Strange Gaming Mouse",
-      price: 300.0,
+      price: 300.00,
       imageUrl:
         "https://assets.hongkiat.com/uploads/creative-unusual-mice/man_body.jpg?newedit",
       description:
@@ -69,7 +69,7 @@ async function seed() {
     }),
     Product.create({
       name: "Optical Ferrari Car Mouse",
-      price: 500.0,
+      price: 500.00,
       imageUrl:
         "https://assets.hongkiat.com/uploads/creative-unusual-mice/ferrari_mouse.jpg?newedit",
       description:
@@ -94,22 +94,22 @@ async function seed() {
   ]);
 
   console.log(`seeded ${orders.length} orders`);
+ 
+  // Adding Products to Orders
+  const orderProducts = await Promise.all([
+    orders[0].addProduct(products[0], { through: { quantity: 1, price: products[0].price } }),
+    orders[0].addProduct(products[2], { through: { quantity: 1, price: products[2].price } }),
+    orders[1].addProduct(products[1], { through: { quantity: 1, price: products[1].price } }),
+    orders[1].addProduct(products[2], { through: { quantity: 2, price: products[2].price } }),
+    orders[1].addProduct(products[3], { through: { quantity: 2, price: products[3].price } }),
+    orders[2].addProduct(products[4], { through: { quantity: 10, price: products[4].price } }),
+    orders[3].addProduct(products[4], { through: { quantity: 1, price: products[4].price } }),
+    orders[4].addProduct(products[0], { through: { quantity: 1, price: products[0].price } }),
+    orders[4].addProduct(products[1], { through: { quantity: 1, price: products[1].price } }),
+    orders[4].addProduct(products[2], { through: { quantity: 2, price: products[2].price } }),
+  ]);
 
-  // Creating Order Products
-  // const orderProducts = await Promise.all([
-  //   Order_Product.create({ orderId: 1, productId: 1, quantity: 1, price: 99.99}),
-  //   Order_Product.create({ orderId: 1, productId: 3, quantity: 1, price: 129.99}),
-  //   Order_Product.create({ orderId: 2, productId: 2, quantity: 1, price: 299.99}),
-  //   Order_Product.create({ orderId: 2, productId: 3, quantity: 2, price: 129.99}),
-  //   Order_Product.create({ orderId: 2, productId: 4, quantity: 2, price: 300.00}),
-  //   Order_Product.create({ orderId: 3, productId: 5, quantity: 10, price: 500.00}),
-  //   Order_Product.create({ orderId: 4, productId: 5, quantity: 1, price: 500.00}),
-  //   Order_Product.create({ orderId: 5, productId: 1, quantity: 1, price: 99.99}),
-  //   Order_Product.create({ orderId: 5, productId: 2, quantity: 1, price: 299.99}),
-  //   Order_Product.create({ orderId: 5, productId: 3, quantity: 2, price: 129.99}),
-  // ]);
-
-  // console.log(`seeded ${orderProducts.length} order products`);
+  console.log(`seeded ${orderProducts.length} order products`);
 
   console.log(`
     seeded successfully
