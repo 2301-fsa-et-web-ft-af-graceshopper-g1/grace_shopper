@@ -12,14 +12,23 @@ const { Product } = require("../server/db/models/Products");
 async function seed() {
   await db.sync({ force: true }); // clears db and matches models to tables
 
-
   // Creating Users
   const users = await Promise.all([
     User.create({ username: "cody", password: "123" }),
     User.create({ username: "murphy", password: "123", isAdmin: true }),
     User.create({ username: "john", password: "123", isEngineer: true }),
-    User.create({ username: "amy", password: "123", isAdmin: true, isEngineer: false }),
-    User.create({ username: "stacy", password: "123", isAdmin: false, isEngineer: false  }),
+    User.create({
+      username: "amy",
+      password: "123",
+      isAdmin: true,
+      isEngineer: false,
+    }),
+    User.create({
+      username: "stacy",
+      password: "123",
+      isAdmin: false,
+      isEngineer: false,
+    }),
     User.create({ username: "TomBrady", password: "123", isEngineer: true }),
   ]);
 

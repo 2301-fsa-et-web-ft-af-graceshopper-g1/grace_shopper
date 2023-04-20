@@ -34,3 +34,13 @@ const Product = db.define("product", {
 });
 
 module.exports = { Product };
+
+/**
+ * classMethods
+ */
+Product.addQty = async function ({ qty, productId }) {
+  const product = await this.findOne({ where: { productId } });
+  return (product.stock += qty);
+};
+
+// Need to add method for adding product to cart
