@@ -2,7 +2,7 @@ import axios from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const fetchSingleProductAsync = createAsyncThunk(
-  "singleProducts/fetchOne",
+  "singleProduct/fetchOne",
   async (id) => {
     const response = await axios.get(
       `http://localhost:8080/api/products/${id}`
@@ -40,7 +40,7 @@ export const addSingleProductAsync = createAsyncThunk(
 );
 
 export const singleProductSlice = createSlice({
-  name: "singleProducts",
+  name: "singleProduct",
   initialState: {},
   reducers: {},
   extraReducers: (builder) => {
