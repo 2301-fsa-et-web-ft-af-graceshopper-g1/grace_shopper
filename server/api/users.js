@@ -29,7 +29,7 @@ router.get("/:userId", async (req, res, next) => {
   }
 });
 
-router.put("/:userId", async (req, res, next) => {
+router.put("/:userId", requireToken, async (req, res, next) => {
   try {
     const user = await User.findOne({
       where: {
@@ -43,7 +43,7 @@ router.put("/:userId", async (req, res, next) => {
   }
 });
 
-router.delete("/:userId", async (req, res, next) => {
+router.delete("/:userId", requireToken, async (req, res, next) => {
   try {
     const user = User.findOne({
       where: {

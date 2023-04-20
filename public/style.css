@@ -64,6 +64,9 @@ form div {
 }
 
 .products {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   border-top: 1px solid black;
   border-bottom: 1px solid black;
   padding: 10px;
@@ -75,4 +78,44 @@ form div {
   padding: 10px;
   font-size: 30px;
   font-family: serif;
+}
+
+.products strong {
+  font-size: 30px;
+  animation: hover-color 3s infinite alternate;
+}
+
+.products div:nth-last-child(1) {
+  font-size: 30px;
+  animation: hover-color 3s infinite alternate;
+}
+
+.singleProductView {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.singleProductView strong {
+  font-size: 30px;
+}
+
+.singleProductView h1 {
+  animation: hover-color 3s infinite alternate;
+  font-family: "Franklin Gothic Medium";
+}
+
+.singleProductView img {
+  height: 200px;
+  width: 200px;
+}
+
+.singleProductView h2 {
+  animation: hover-color 3s infinite alternate;
+  font-size: 30px;
+}
+
+.singleProductView p {
+  font-family: "Franklin Gothic Medium";
+  font-size: 30px;
 }

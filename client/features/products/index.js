@@ -26,7 +26,7 @@ const Products = () => {
                 <img
                   src={product.imageUrl}
                   alt={product.name}
-                  style={{ width: "100px", height: "100px" }}
+                  style={{ width: "200px", height: "200px" }}
                 ></img>
               </Link>
             </div>

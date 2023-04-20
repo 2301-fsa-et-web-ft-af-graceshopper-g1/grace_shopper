@@ -24,17 +24,17 @@ const SingleProduct = () => {
   return (
     <div key={product.id} className="singleProductView">
       <strong>Look at this!</strong>
-      <h2>{product.name}</h2>
-      <h2>{"$" + product.price}</h2>
+      <h1>{product.name}</h1>
       {product.imageUrl && (
         <img
           src={product.imageUrl}
           alt={`${product.name}`}
-          style={{ width: "100px", height: "100px" }}
+          // style={{ width: "100px", height: "100px" }}
         />
       )}
       <p>About: {product.description}</p>
       <p>Available now: {product.stock}</p>
+      <h2>{"$" + product.price}</h2>
     </div>
   );
 };
