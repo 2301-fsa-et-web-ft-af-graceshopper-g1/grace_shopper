@@ -1,8 +1,7 @@
 const {
   db,
-  models: { User },
+  models: { User, Order, Order_Product },
 } = require("../server/db");
-
 const { Product } = require("../server/db/models/Products");
 
 /**
@@ -11,7 +10,6 @@ const { Product } = require("../server/db/models/Products");
  */
 async function seed() {
   await db.sync({ force: true }); // clears db and matches models to tables
-
 
   // Creating Users
   const users = await Promise.all([
@@ -23,9 +21,9 @@ async function seed() {
     User.create({ username: "TomBrady", password: "123", isEngineer: true }),
   ]);
 
-  console.log("db synced!");
+  console.log(`seeded ${users.length} users`);
 
-  // Creating Product
+  // Creating Products
   const products = await Promise.all([
     Product.create({
       name: "HyperX Headset",
@@ -53,7 +51,7 @@ async function seed() {
     }),
     Product.create({
       name: "Strange Gaming Mouse",
-      price: 300.0,
+      price: 300.00,
       imageUrl:
         "https://assets.hongkiat.com/uploads/creative-unusual-mice/man_body.jpg?newedit",
       description:
@@ -62,7 +60,7 @@ async function seed() {
     }),
     Product.create({
       name: "Optical Ferrari Car Mouse",
-      price: 500.0,
+      price: 500.00,
       imageUrl:
         "https://assets.hongkiat.com/uploads/creative-unusual-mice/ferrari_mouse.jpg?newedit",
       description:
@@ -71,12 +69,43 @@ async function seed() {
     }),
   ]);
 
+  console.log(`seeded ${products.length} products`);
+
+  // Creating Orders
+  const orders = await Promise.all([
+    Order.create({ userId: 1, guest: false }),
+    Order.create({ userId: 2, guest: false }),
+    Order.create({ userId: 4, guest: false, checkoutDate: "Tue Jul 06 2021 07:55:33" }),
+    Order.create({ userId: 4, guest: false }),
+    Order.create(),
+  ]);
+
+  console.log(`seeded ${orders.length} orders`);
+
+  // Creating Order Products
+  const orderProducts = await Promise.all([
+    Order_Product.create({ orderId: 1, productId: 1, quantity: 1, price: 99.99}),
+    Order_Product.create({ orderId: 1, productId: 3, quantity: 1, price: 129.99}),
+    Order_Product.create({ orderId: 2, productId: 2, quantity: 1, price: 299.99}),
+    Order_Product.create({ orderId: 2, productId: 3, quantity: 2, price: 129.99}),
+    Order_Product.create({ orderId: 2, productId: 4, quantity: 2, price: 300.00}),
+    Order_Product.create({ orderId: 3, productId: 5, quantity: 10, price: 500.00}),
+    Order_Product.create({ orderId: 4, productId: 5, quantity: 1, price: 500.00}),
+    Order_Product.create({ orderId: 5, productId: 1, quantity: 1, price: 99.99}),
+    Order_Product.create({ orderId: 5, productId: 2, quantity: 1, price: 299.99}),
+    Order_Product.create({ orderId: 5, productId: 3, quantity: 2, price: 129.99}),
+  ]);
+
+  console.log(`seeded ${orderProducts.length} order products`);
+
+  console.log(`
+    seeded successfully
+    db synced!
+  `);
+
   // Run 'npm run seed' when changing or adding data.
 
-  // console.log(`seeded ${users.length} users`);
-  // console.log(`seeded successfully`);
-
-  console.log(`seeded ${products.length} products `);
+  // What's this line of code doing?
   return {
     users: {
       cody: users[0],
