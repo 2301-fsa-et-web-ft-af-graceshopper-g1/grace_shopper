@@ -13,7 +13,30 @@ export const fetchSingleProductAsync = createAsyncThunk(
 
 export const addSingleProductAsync = createAsyncThunk(
   "addSingleProduct",
-  async ({ name, price, imageUrl, description, stock }) => {}
+  async ({ name, price, imageUrl, description, stock }) => {
+    try {
+      const token = localStorage.getItem("token");
+      //console.log(token);
+      const { data } = await axios.post(
+        "http://localhost:8080/api/products",
+        {
+          name,
+          price,
+          imageUrl,
+          description,
+          stock,
+        },
+        {
+          headers: {
+            authorization: `${token}`,
+          },
+        }
+      );
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 );
 
 export const singleProductSlice = createSlice({

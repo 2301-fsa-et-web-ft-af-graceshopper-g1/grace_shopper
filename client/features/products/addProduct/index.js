@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { addSingleProductAsync } from "../../singleProduct/singleProductSlice";
+import { fetchProductsAsync } from "../productsSlice";
 
 const AddProduct = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [name, setProductName] = useState("");
   const [price, setProductPrice] = useState("");
@@ -12,8 +16,18 @@ const AddProduct = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault;
-    // do async thunk here
+
+    if (!name || !price || !imageUrl || !description || !stock) {
+      alert("Please provide valid inputs for all product fields");
+      return;
+    }
+    dispatch(
+      addSingleProductAsync({ name, price, imageUrl, description, stock })
+    );
+    dispatch(fetchProductsAsync());
+    navigate("/products");
   };
+
   return (
     <div className="addProductPage">
       <strong>Add New Product Here</strong>
