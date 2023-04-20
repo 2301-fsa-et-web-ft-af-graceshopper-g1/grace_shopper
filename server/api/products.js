@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { Product } = require("../db/models/Products");
-console.log("Product:", Product);
+const { requireToken, isAdmin } = require("./gatekeepingMiddleware");
+
 //Get all products
 router.get("/", async (req, res, next) => {
   try {
@@ -28,7 +29,7 @@ router.get("/:id", async (req, res, next) => {
 //Admins Only:
 
 //Adding a Product
-router.post("/", async (req, res, next) => {
+router.post("/", requireToken, isAdmin, async (req, res, next) => {
   try {
     const newProduct = await Product.create(req.body);
     res.send(newProduct);
@@ -38,7 +39,7 @@ router.post("/", async (req, res, next) => {
 });
 
 //Edit a Product
-router.put("/:id", async (req, res, next) => {
+router.put("/:id", requireToken, isAdmin, async (req, res, next) => {
   try {
     const product = await Product.findOne({
       where: {
@@ -53,7 +54,7 @@ router.put("/:id", async (req, res, next) => {
 });
 
 //Delete a Product
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", requireToken, isAdmin, async (req, res, next) => {
   try {
     const product = await Product.findOne({
       where: {
