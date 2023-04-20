@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { Product } = require("../db/models/Products");
+const Product = require("../db/models/Product");
 const { requireToken, isAdmin } = require("./gatekeepingMiddleware");
 
 //Get all products

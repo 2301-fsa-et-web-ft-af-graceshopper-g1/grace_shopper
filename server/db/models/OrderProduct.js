@@ -3,15 +3,7 @@ const db = require("../db");
 
 // Junction table associating Order IDs with Product IDs,
 // adding quantity and price
-const Order_Product = db.define("order_product", {
-  orderId: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-  },
-  productId: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-  },
+const OrderProduct = db.define("order_product", {
   quantity: {
     type: Sequelize.INTEGER,
     allowNull: false,
@@ -26,4 +18,4 @@ const Order_Product = db.define("order_product", {
   },
 });
 
-module.exports = Order_Product;
+module.exports = OrderProduct;
