@@ -1,0 +1,29 @@
+.singleProductView {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.singleProductView strong {
+  font-size: 30px;
+}
+
+.singleProductView h1 {
+  animation: hover-color 7s infinite alternate;
+  font-family: "Franklin Gothic Medium";
+}
+
+.singleProductView img {
+  height: 200px;
+  width: 200px;
+}
+
+.singleProductView h2 {
+  animation: hover-color 7s infinite alternate;
+  font-size: 30px;
+}
+
+.singleProductView p {
+  font-family: "Franklin Gothic Medium";
+  font-size: 30px;
+}

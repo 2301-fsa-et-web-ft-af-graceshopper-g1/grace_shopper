@@ -1,0 +1,42 @@
+nav {
+  display: flex;
+  justify-content: center;
+}
+
+nav a {
+  font-family: monospace;
+  font-size: 20px;
+}
+
+nav a:hover {
+  animation: hover-color 7s infinite alternate;
+}
+
+nav button:hover {
+  animation: hover-color 7s infinite alternate;
+  cursor: pointer;
+}
+
+@keyframes hover-color {
+  0% {
+    color: rgb(255, 0, 0);
+  }
+  16.6% {
+    color: rgb(255, 165, 0);
+  }
+  33.3% {
+    color: rgb(172, 172, 51);
+  }
+  50% {
+    color: rgb(0, 128, 0);
+  }
+  66.6% {
+    color: rgb(0, 0, 255);
+  }
+  83.3% {
+    color: rgb(75, 0, 130);
+  }
+  100% {
+    color: rgb(148, 0, 211);
+  }
+}
