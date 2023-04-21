@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 const MyCart = () => {
   // Dummy data - note that we want the quantity of each product
+
   const product1 = {
     name: "HyperX Headset",
     price: 99.99,
@@ -34,6 +35,11 @@ const MyCart = () => {
   // Our cart takes an array of product instances
   const products = [product1, product2, product3];
 
+  const totalPrice = products.reduce(
+    (acc, product) => acc + product.price * product.quantity,
+    0
+  );
+
   return (
     <div id="cart">
       <h2>Shopping Cart</h2>
@@ -53,7 +59,28 @@ const MyCart = () => {
             ) : (
               <p>Out of stock</p>
             )}
-            <p>Quantity: {product.quantity}</p>
+            <p>
+              Quantity: {product.quantity}
+              <span style={{ margin: "10px" }}>
+                <button
+                  type="button"
+                  className="small-quantity-button"
+                  disabled={products.quantity <= 1 && "true"}
+                  onClick={() => {
+                    products.quantity - 1;
+                  }}
+                >
+                  -
+                </button>
+                <button
+                  type="button"
+                  className="small-quantity-button"
+                  onClick={() => product.quantity + 1}
+                >
+                  +
+                </button>
+              </span>
+            </p>
             <p>Price: {product.price}</p>
             <hr />
           </div>
@@ -61,6 +88,7 @@ const MyCart = () => {
       ) : (
         <p>Your cart is empty</p>
       )}
+      <p>Subtotal: ${totalPrice.toFixed(2)}</p>
       <Link to="/checkout">
         <button>Checkout</button>
       </Link>
