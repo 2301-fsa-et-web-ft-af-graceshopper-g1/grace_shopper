@@ -15,13 +15,13 @@ const SingleProduct = () => {
     dispatch(fetchSingleProductAsync(id));
   }, [dispatch, id]);
 
-  if (!product) {
-    return <div>No Product to display</div>;
-  }
+  const handleClick = () => {};
 
   // console.log('this is the Id:', product.id)
 
-  return (
+  return !product ? (
+    <div>No Product to display</div>
+  ) : (
     <div key={product.id} className="singleProductView">
       <strong>Look at this!</strong>
       <h1>{product.name}</h1>
@@ -35,6 +35,7 @@ const SingleProduct = () => {
       <p>About: {product.description}</p>
       <p>Available now: {product.stock}</p>
       <h2>{"$" + product.price}</h2>
+      <button onClick={handleClick}>Add To Cart </button>
     </div>
   );
 };
