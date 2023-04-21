@@ -38,18 +38,19 @@ const MyCart = () => {
   // const products = [product1, product2, product3];
 
   const dispatch = useDispatch();
-  const cart = useSelector(selectMyCart);
-  console.log ("cart: ", cart);
+  const fullCart = useSelector(selectMyCart);
+  console.log("cart: ", fullCart);
   const { id } = useParams();
 
   useEffect(() => {
     dispatch(fetchCartItemsAsync(id));
   }, [dispatch, id]);
-  
-  const totalPrice = cart.reduce(
-    (acc, product) => acc + product.price * product.quantity,
-    0
-  );
+
+  // const totalPrice = cart.reduce(
+  //   (acc, product) => acc + product.price * product.quantity,
+  //   0
+  // );
+  let cart = fullCart.products;
 
   return (
     <div id="cart">
@@ -99,7 +100,7 @@ const MyCart = () => {
       ) : (
         <p>Your cart is empty</p>
       )}
-      <p>Subtotal: ${totalPrice.toFixed(2)}</p>
+      {/* <p>Subtotal: ${totalPrice.toFixed(2)}</p> */}
       <Link to="/checkout">
         <button>Checkout</button>
       </Link>
