@@ -43,7 +43,6 @@ export const myCartSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchCartItemsAsync.fulfilled, (state, action) => {
       return action.payload
-      // .orders[0].order_products;
     });
   },
 });
