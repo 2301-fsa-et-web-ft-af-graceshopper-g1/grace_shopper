@@ -9,7 +9,7 @@ const MyCart = () => {
     imageUrl: "https://m.media-amazon.com/images/I/71MJ3OaVqBL.jpg",
     description: "A great comfortable headset for an UNBEATABLE price!",
     // Added a quantity property, currently not in our Product model
-    quantity: 1,
+    quantity: 1, //todo we want singleproducts to pass this in (bonus feature), otherwise it will be constant of 1
     stock: 10,
   };
   const product2 = {
