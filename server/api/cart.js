@@ -40,7 +40,7 @@ router.get("/:id", async (req, res, next) => {
           model: Product,
           through: {
             model: OrderProduct,
-            attributes: ["quantity"],
+            attributes: ["quantity", "price"],
           },
         },
       ],
