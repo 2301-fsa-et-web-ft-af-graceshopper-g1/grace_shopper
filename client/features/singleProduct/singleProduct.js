@@ -5,6 +5,7 @@ import {
   fetchSingleProductAsync,
   selectSingleProduct,
 } from "./singleProductSlice";
+import "./singleProduct.css";
 
 const SingleProduct = () => {
   const dispatch = useDispatch();

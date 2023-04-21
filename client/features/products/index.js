@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchProductsAsync, selectProducts } from "./productsSlice";
 import { Link } from "react-router-dom";
+import "./index.css";
 
 const Products = () => {
   const dispatch = useDispatch();

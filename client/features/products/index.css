@@ -1,0 +1,26 @@
+.products {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 10px;
+}
+
+.products-header {
+  display: block;
+  text-align: center;
+  padding: 10px;
+  font-size: 30px;
+  font-family: serif;
+}
+
+.products strong {
+  font-size: 30px;
+  animation: hover-color 7s infinite alternate;
+}
+
+.products div:nth-last-child(1) {
+  font-size: 30px;
+  animation: hover-color 7s infinite alternate;
+}
