@@ -20,13 +20,43 @@ router.get("/", isAdmin, async (req, res, next) => {
 //GET Single Cart
 router.get("/:id", async (req, res, next) => {
   try {
-    const cart = await User.findOne({
-      include: [{ model: Order, include: [OrderProduct] }],
+    // const cart = await User.findOne({
+    //   // include: [{ model: Order, include: [OrderProduct] }],
+    //   include: [
+    //     {
+    //       model: OrderProduct,
+    //       include: [Product],
+    //     },
+    //   ],
+    //   where: {
+    //     id: req.params.id,
+    //   },
+    // });
+    // res.send(cart);
+    const order = await Order.findOne({
       where: {
         id: req.params.id,
       },
+      include: [
+        {
+          model: User,
+          attributes: ["id", "username"],
+        },
+        {
+          model: Product,
+          through: {
+            model: OrderProduct,
+            attributes: ["quantity"],
+          },
+        },
+      ],
     });
-    res.send(cart);
+
+    if (order) {
+      res.send(order);
+    } else {
+      res.sendStatus(404);
+    }
   } catch (error) {
     next(error);
   }
