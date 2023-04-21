@@ -12,36 +12,40 @@ async function seed() {
 
   // Creating Users
   const users = await Promise.all([
-    User.create({ username: "cody", password: "123" }),
-    User.create({ username: "murphy", password: "123", isAdmin: true }),
-    User.create({ username: "john", password: "123", isEngineer: true }),
-    User.create({
+    await User.create({ username: "cody", password: "123" }),
+    await User.create({ username: "murphy", password: "123", isAdmin: true }),
+    await User.create({ username: "john", password: "123", isEngineer: true }),
+    await User.create({
       username: "amy",
       password: "123",
       isAdmin: true,
       isEngineer: false,
     }),
-    User.create({
+    await User.create({
       username: "stacy",
       password: "123",
       isAdmin: false,
       isEngineer: false,
     }),
-    User.create({ username: "TomBrady", password: "123", isEngineer: true }),
+    await User.create({
+      username: "TomBrady",
+      password: "123",
+      isEngineer: true,
+    }),
   ]);
 
   console.log(`seeded ${users.length} users`);
 
   // Creating Products
   const products = await Promise.all([
-    Product.create({
+    await Product.create({
       name: "HyperX Headset",
       price: 99.99,
       imageUrl: "https://m.media-amazon.com/images/I/71MJ3OaVqBL.jpg",
       description: "A great comfortable headset for an UNBEATABLE price!",
       stock: 10,
     }),
-    Product.create({
+    await Product.create({
       name: "Logitech Headset",
       price: 299.99,
       imageUrl:
@@ -49,7 +53,7 @@ async function seed() {
       description: "A great comfortable headset for a actual BEATABLE price!",
       stock: 25,
     }),
-    Product.create({
+    await Product.create({
       name: "SteelSeries Keyboard",
       price: 129.99,
       imageUrl:
@@ -58,18 +62,18 @@ async function seed() {
         "Newest KeyBoard from steelseries. the BEST GAMING KEYBOARD!",
       stock: 100,
     }),
-    Product.create({
+    await Product.create({
       name: "Strange Gaming Mouse",
-      price: 300.00,
+      price: 300.0,
       imageUrl:
         "https://assets.hongkiat.com/uploads/creative-unusual-mice/man_body.jpg?newedit",
       description:
         "A strange mouse from a even stranger land. seems to resemble the physique of a human male.",
       stock: 3,
     }),
-    Product.create({
+    await Product.create({
       name: "Optical Ferrari Car Mouse",
-      price: 500.00,
+      price: 500.0,
       imageUrl:
         "https://assets.hongkiat.com/uploads/creative-unusual-mice/ferrari_mouse.jpg?newedit",
       description:
@@ -82,31 +86,51 @@ async function seed() {
 
   // Creating Orders
   const orders = await Promise.all([
-    Order.create({ userId: 1, guest: false }),
-    Order.create({ userId: 2, guest: false }),
-    Order.create({
+    await Order.create({ userId: 1, guest: false }),
+    await Order.create({ userId: 2, guest: false }),
+    await Order.create({
       userId: 4,
       guest: false,
       checkoutDate: "Tue Jul 06 2021 07:55:33",
     }),
-    Order.create({ userId: 4, guest: false }),
-    Order.create(),
+    await Order.create({ userId: 4, guest: false }),
+    await Order.create(),
   ]);
 
   console.log(`seeded ${orders.length} orders`);
- 
+
   // Adding Products to Orders
   const orderProducts = await Promise.all([
-    orders[0].addProduct(products[0], { through: { quantity: 1, price: products[0].price } }),
-    orders[0].addProduct(products[2], { through: { quantity: 1, price: products[2].price } }),
-    orders[1].addProduct(products[1], { through: { quantity: 1, price: products[1].price } }),
-    orders[1].addProduct(products[2], { through: { quantity: 2, price: products[2].price } }),
-    orders[1].addProduct(products[3], { through: { quantity: 2, price: products[3].price } }),
-    orders[2].addProduct(products[4], { through: { quantity: 10, price: products[4].price } }),
-    orders[3].addProduct(products[4], { through: { quantity: 1, price: products[4].price } }),
-    orders[4].addProduct(products[0], { through: { quantity: 1, price: products[0].price } }),
-    orders[4].addProduct(products[1], { through: { quantity: 1, price: products[1].price } }),
-    orders[4].addProduct(products[2], { through: { quantity: 2, price: products[2].price } }),
+    await orders[0].addProduct(products[0], {
+      through: { quantity: 1, price: products[0].price },
+    }),
+    await orders[0].addProduct(products[2], {
+      through: { quantity: 1, price: products[2].price },
+    }),
+    await orders[1].addProduct(products[1], {
+      through: { quantity: 1, price: products[1].price },
+    }),
+    await orders[1].addProduct(products[2], {
+      through: { quantity: 2, price: products[2].price },
+    }),
+    await orders[1].addProduct(products[3], {
+      through: { quantity: 2, price: products[3].price },
+    }),
+    await orders[2].addProduct(products[4], {
+      through: { quantity: 10, price: products[4].price },
+    }),
+    await orders[3].addProduct(products[4], {
+      through: { quantity: 1, price: products[4].price },
+    }),
+    await orders[4].addProduct(products[0], {
+      through: { quantity: 1, price: products[0].price },
+    }),
+    await orders[4].addProduct(products[1], {
+      through: { quantity: 1, price: products[1].price },
+    }),
+    await orders[4].addProduct(products[2], {
+      through: { quantity: 2, price: products[2].price },
+    }),
   ]);
 
   console.log(`seeded ${orderProducts.length} order products`);
