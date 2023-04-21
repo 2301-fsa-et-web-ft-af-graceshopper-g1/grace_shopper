@@ -4,7 +4,7 @@ const db = require("../db");
 const Product = db.define("product", {
   name: {
     type: Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
     validate: {
       notEmpty: true,
     },
@@ -27,6 +27,7 @@ const Product = db.define("product", {
   stock: {
     type: Sequelize.INTEGER,
     allowNull: false,
+    defaultValue: 0,
     validate: {
       notEmpty: true,
     },
