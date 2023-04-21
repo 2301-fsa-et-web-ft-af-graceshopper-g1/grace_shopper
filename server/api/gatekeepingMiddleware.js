@@ -29,8 +29,17 @@ const isEngineer = (req, res, next) => {
   }
 };
 
+const isAdminOrEngineer = (req, res, next) => {
+  if (!req.user.isEngineer && !req.user.isAdmin) {
+    return res.status(403).send("Access Denied");
+  } else {
+    next();
+  }
+};
+
 module.exports = {
   requireToken,
   isAdmin,
   isEngineer,
+  isAdminOrEngineer,
 };
