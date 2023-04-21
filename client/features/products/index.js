@@ -13,28 +13,30 @@ const Products = () => {
   }, [dispatch]);
 
   return (
-    <div className="allProductsView">
-      <strong className="products-header">All Products</strong>
-      {products.map((product) => {
-        return (
-          <div className="products" key={product.id}>
-            <Link to={`/products/${product.id}`}>
-              <strong>{product.name}</strong>
-            </Link>
-
-            <div>
+    <div>
+      <h1 className="products-header">All Products</h1>
+      <div className="allProductsView">
+        {products.map((product) => {
+          return (
+            <div className="products" key={product.id}>
               <Link to={`/products/${product.id}`}>
-                <img
-                  src={product.imageUrl}
-                  alt={product.name}
-                  style={{ width: "200px", height: "200px" }}
-                ></img>
+                <strong className="productName">{product.name}</strong>
               </Link>
+
+              <div>
+                <Link to={`/products/${product.id}`}>
+                  <img
+                    className="allProductsPics"
+                    src={product.imageUrl}
+                    alt={product.name}
+                  ></img>
+                </Link>
+              </div>
+              <div>{"$" + product.price}</div>
             </div>
-            <div>{"$" + product.price}</div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 };
