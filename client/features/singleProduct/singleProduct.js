@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   fetchSingleProductAsync,
   selectSingleProduct,
@@ -10,12 +10,16 @@ const SingleProduct = () => {
   const dispatch = useDispatch();
   const product = useSelector(selectSingleProduct);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchSingleProductAsync(id));
   }, [dispatch, id]);
 
-  const handleClick = () => {};
+  const handleClick = () => {
+    alert("Product added to cart");
+    // navigate("/cart");
+  };
 
   // console.log('this is the Id:', product.id)
 
@@ -36,6 +40,7 @@ const SingleProduct = () => {
       <p>Available now: {product.stock}</p>
       <h2>{"$" + product.price}</h2>
       <button onClick={handleClick}>Add To Cart </button>
+      <button>Buy in 1 click</button>
     </div>
   );
 };
