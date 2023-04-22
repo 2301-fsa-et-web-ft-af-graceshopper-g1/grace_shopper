@@ -1,6 +1,7 @@
 body {
   font-family: "Lato", sans-serif;
   background-color: skyblue;
+  margin:20px;
 }
 
 a {
@@ -13,10 +14,14 @@ label {
 
 nav a {
   display: inline-block;
-  margin: 1em;
+  margin: 0.3em;
 }
 
 form div {
   margin: 1em;
   display: inline-block;
+}
+
+a > p {
+  font-style: italic;
 }

@@ -11,6 +11,7 @@ import AddProduct from "../features/products/addProduct";
 import EditProduct from "../features/products/editProduct";
 import Checkout from "../features/checkout/Checkout";
 import AllUsers from "../features/users/allUsers";
+import AllOrders from "../features/allOrders/AllOrders";
 
 /**
  * COMPONENT
@@ -37,6 +38,7 @@ const AppRoutes = () => {
           {isAdmin && <Route path="/addProduct" element={<AddProduct />} />}
           {isAdmin && <Route path="/editProduct" element={<EditProduct />} />}
           {isAdmin && <Route path="/allUsers" element={<AllUsers />} />}
+          {isAdmin && <Route path="/cart/orders" element={<AllOrders />} />}
           <Route path="/checkout" element={<Checkout />} />
         </Routes>
       ) : (

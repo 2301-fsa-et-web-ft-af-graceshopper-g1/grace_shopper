@@ -1,3 +1,7 @@
+h1 {
+  text-align: center;
+}
+
 nav {
   display: flex;
   justify-content: center;
@@ -27,10 +31,14 @@ nav button:hover {
   box-shadow: 2px 4px 7px rgba(0, 0, 0, 0.5);
 }
 img {
-  border-radius: 40px;
+  border-radius: 20px;
   background-color: white;
-  width: 100px;
-  height: 100px;
+}
+
+.allProductsPics {
+  width: 150px;
+  height: 150px;
+  margin: 40px;
 }
 
 button {
@@ -55,21 +63,21 @@ button:hover {
     color: rgb(255, 0, 0);
   }
   16.6% {
-    color: rgb(255, 165, 0);
+    color: rgb(255, 153, 0);
   }
   33.3% {
-    color: rgb(172, 172, 51);
+    color: rgb(223, 223, 24);
   }
   50% {
-    color: rgb(0, 128, 0);
+    color: rgb(17, 153, 66);
   }
   66.6% {
     color: rgb(0, 0, 255);
   }
   83.3% {
-    color: rgb(75, 0, 130);
+    color: rgb(141, 44, 226);
   }
   100% {
-    color: rgb(148, 0, 211);
+    color: rgb(255, 0, 255);
   }
 }
