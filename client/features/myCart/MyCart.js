@@ -15,63 +15,71 @@ const MyCart = () => {
 
   return (
     <div id="cart">
-      <h2>Shopping Cart</h2>
+      <h2 className="products-header">Shopping Cart</h2>
       {cartItems && cartItems.length ? (
         <div>
         {cartItems.map((item) => (
-          <div key={item.id}>
+          <div className="cart-item" key={item.id}>
             <Link to={`/products/${item.id}`}>
               <h3>{item.name}</h3>
             </Link>
-            <img
-              src={item.imageUrl}
-              alt={item.name}
-              style={{ width: "100px", height: "100px" }}
-            />
-            {item.stock && item.stock > 0 ? (
-              <p>In stock</p>
-            ) : (
-              <p>Out of stock</p>
-            )}
-            <p>
-              Quantity: {item.order_product.quantity}
-              <span style={{ margin: "10px" }}>
-                <button
-                  type="button"
-                  className="small-quantity-button"
-                  disabled={item.order_product.quantity <= 1 && true}
-                  onClick={() => {
-                    item.order_product.quantity - 1;
-                  }}
-                >
-                  -
-                </button>
-                <button
-                  type="button"
-                  className="small-quantity-button"
-                  onClick={() => item.order_product.quantity + 1}
-                >
-                  +
-                </button>
-              </span>
-            </p>
-            <p>Price: ${item.order_product.price}</p>
+            <div className="cart-container">
+              <img
+                src={item.imageUrl}
+                alt={item.name}
+                style={{ width: "100px", height: "100px" }}
+              />
+              <div className="price-column">
+                {item.stock && item.stock > 0 ? (
+                  <p>In stock</p>
+                ) : (
+                  <p>Out of stock</p>
+                )}
+                  <span style={{ margin: "10px" }}>
+                    <button
+                      type="button"
+                      className="small-quantity-button"
+                      disabled={item.order_product.quantity <= 1 && true}
+                      onClick={() => {
+                        item.order_product.quantity - 1;
+                      }}
+                    >
+                      -
+                    </button>
+                    <span>&nbsp;&nbsp;Quantity: {item.order_product.quantity}&nbsp;&nbsp;</span>
+                    <button
+                      type="button"
+                      className="small-quantity-button"
+                      onClick={() => item.order_product.quantity + 1}
+                    >
+                      +
+                    </button>
+                  </span>
+                <p>Price: ${item.order_product.price}</p>
+              </div>
+            </div>
             <hr />
           </div>
         ))}
-          <p>Subtotal: ${
+          <h3 style={{textAlign: "center"}}>Subtotal: ${
             cartItems.reduce(
               (acc, item) => acc + item.order_product.price * item.order_product.quantity,
               0).toFixed(2)
             }
-          </p>
+          </h3>
         </div>
       ) : (
         <p>Your cart is empty</p>
       )}
-      <Link to="/checkout">
-        <button>Checkout</button>
-      </Link>
+      <div id="checkout-column">
+        <Link to="/checkout">
+          <button>Checkout</button>
+        </Link>
+        <Link to="/products">
+          <p style={{fontSize: "20px"}}>Continue shopping</p>
+        </Link>
+        <br /><br />
+      </div>
     </div>
   );
 };

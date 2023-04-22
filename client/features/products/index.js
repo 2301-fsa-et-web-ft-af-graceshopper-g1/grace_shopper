@@ -14,7 +14,7 @@ const Products = () => {
 
   return (
     <div>
-      <h1 className="products-header">All Products</h1>
+      <h2 className="products-header">All Products</h2>
       <div className="allProductsView">
         {products.map((product) => {
           return (

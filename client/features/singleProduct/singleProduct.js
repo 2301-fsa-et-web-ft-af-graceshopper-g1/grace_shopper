@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import {
   fetchSingleProductAsync,
   selectSingleProduct,
@@ -11,7 +11,6 @@ const SingleProduct = () => {
   const dispatch = useDispatch();
   const product = useSelector(selectSingleProduct);
   const { id } = useParams();
-  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchSingleProductAsync(id));
@@ -19,10 +18,7 @@ const SingleProduct = () => {
 
   const handleClick = () => {
     alert("Product added to cart");
-    // navigate("/cart");
   };
-
-  // console.log('this is the Id:', product.id)
 
   return !product ? (
     <div>No Product to display</div>
@@ -34,15 +30,17 @@ const SingleProduct = () => {
         <img
           src={product.imageUrl}
           alt={`${product.name}`}
-          // style={{ width: "100px", height: "100px" }}
         />
       )}
       <p>About: {product.description}</p>
-      <p>Available now: {product.stock}</p>
+      <h3>Available now: {product.stock}</h3>
       <h2>{"$" + product.price}</h2>
       <button onClick={handleClick}>Add To Cart </button>
-      <button>Buy in 1 click</button>
+      <Link to="/products">
+        <p>Continue shopping</p>
+      </Link>
     </div>
   );
 };
+
 export default SingleProduct;

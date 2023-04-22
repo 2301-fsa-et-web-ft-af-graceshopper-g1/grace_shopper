@@ -6,12 +6,24 @@ const { isAdmin, requireToken } = require("./gatekeepingMiddleware");
 module.exports = router;
 
 //GET All Cart Instances //Admins Only
-router.get("/", requireToken, isAdmin, async (req, res, next) => {
+router.get("/orders", requireToken, isAdmin, async (req, res, next) => {
   try {
-    const cart = await User.findAll({
-      include: [{ model: Order }],
+    const orders = await Order.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ["id", "username"],
+        },
+        {
+          model: Product,
+          through: {
+            model: OrderProduct,
+            attributes: ["quantity", "price"],
+          },
+        },
+      ],
     });
-    res.send(cart);
+    res.send(orders);
   } catch (error) {
     next(error);
   }

@@ -1,18 +1,19 @@
 .allProductsView {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .products {
   display: flex;
   align-items: center;
   flex-direction: column;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
+  border: 1px solid white;
   padding: 10px;
+  margin-right: -1px;
+  margin-bottom: -1px;
   width: 300px;
   height: 300px;
-  margin: 10px;
 }
 
 img {
@@ -31,7 +32,6 @@ img {
 }
 
 .products strong {
-  margin-bottom: 100px;
   font-size: 1.5rem;
   animation: hover-color 7s infinite alternate;
 }
@@ -47,4 +47,28 @@ img {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 250px;
+}
+
+#cart, #all-orders {
+  margin: 0px 50px;
+}
+
+.cart-item {
+  text-align: center;
+}
+
+.cart-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.price-column, #checkout-column {
+  text-align: center;
+}
+
+ul {
+  list-style-type: none;
 }

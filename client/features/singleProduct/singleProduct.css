@@ -14,8 +14,8 @@
 }
 
 .singleProductView img {
-  height: 200px;
-  width: 200px;
+  height: 300px;
+  width: 300px;
 }
 
 .singleProductView h2 {
@@ -24,6 +24,10 @@
 }
 
 .singleProductView p {
-  font-family: "Franklin Gothic Medium";
-  font-size: 30px;
+  font-size: 20px;
+  padding: 0px 40px;
+}
+
+h3 {
+  font-size: 25px;
 }
