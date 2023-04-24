@@ -26,7 +26,7 @@ const Checkout = () => {
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     // await dispatch(editCheckoutAsync({ id, name, address }));
-    
+
     setCardNumber("");
     setExpirationDate("");
     setName("");
@@ -41,23 +41,9 @@ const Checkout = () => {
   return (
     <div className="form">
       <form id="checkout-form" onSubmit={handleSubmit}>
-        <label htmlFor="name">Name on card: </label>
-        <input name="name" value={name} onChange={handleName} />
-        <label htmlFor="cardNumber">Card Number: </label>
-        <input
-          name="cardNumber"
-          value={cardNumber}
-          onChange={handleCardNumber}
-        />
-        <label htmlFor="expiration Date">Expiration Date:</label>
-        <input
-          name="expirationDate"
-          value={expirationDate}
-          onChange={handleExpirationDate}
-        />
-        <button type="submit">Submit Cart for Checkout</button>
-        <Link to="/home" onClick={handleCancel}>
-          Cancel Checkout
+        <h2>Thank you for checking out! </h2>
+        <Link to="/">
+          <button>Click here to return to home</button>
         </Link>
       </form>
     </div>

@@ -14,22 +14,32 @@ export const fetchCartItemsAsync = createAsyncThunk(
   }
 );
 
-export const addCartItemAsync = createAsyncThunk(
-  "addCartItem",
-  async () => {
-    try {
-
-    } catch (err) {
-      console.error(err.response.data);
-    }
+export const addCartItemAsync = createAsyncThunk("addCartItem", async () => {
+  try {
+  } catch (err) {
+    console.error(err.response.data);
   }
-);
+});
 
-export const removeCartItem = createAsyncThunk(
-  "removeCartItem",
+export const removeCartItem = createAsyncThunk("removeCartItem", async () => {
+  try {
+  } catch (err) {
+    console.error(err.response.data);
+  }
+});
+
+export const handleCheckoutAsync = createAsyncThunk(
+  "handleCheckoutAsync",
   async () => {
     try {
-
+      const newDate = Date.now();
+      const checkoutDate = await axios.put(
+        `http://localhost:8080/api/cart/checkout/${userId}`,
+        {
+          newDate,
+        }
+      );
+      return checkoutDate;
     } catch (err) {
       console.error(err.response.data);
     }
@@ -42,8 +52,12 @@ export const myCartSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchCartItemsAsync.fulfilled, (state, action) => {
-      return action.payload
-    });
+      return action.payload;
+    }),
+      builder.addCase(handleCheckoutAsync.fulfilled),
+      (state, action) => {
+        return action.payload;
+      };
   },
 });
 

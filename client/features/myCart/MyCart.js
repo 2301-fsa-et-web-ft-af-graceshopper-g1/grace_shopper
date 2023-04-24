@@ -1,7 +1,11 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchCartItemsAsync, selectMyCart } from "./myCartSlice";
+import {
+  fetchCartItemsAsync,
+  selectMyCart,
+  handleCheckoutAsync,
+} from "./myCartSlice";
 import "./index.css";
 
 const MyCart = () => {
@@ -11,7 +15,11 @@ const MyCart = () => {
 
   useEffect(() => {
     dispatch(fetchCartItemsAsync(userId));
-  }, [dispatch, userId]);
+  }, []);
+
+  const handleCheckout = () => {
+    dispatch(handleCheckoutAsync(userId));
+  };
 
   return (
     <div id="cart">
@@ -80,7 +88,9 @@ const MyCart = () => {
       )}
       <div id="checkout-column">
         <Link to="/checkout">
-          <button>Checkout</button>
+          <button onClick={handleCheckout}>
+            Checkout: Order will be Final!
+          </button>
         </Link>
         <Link to="/products">
           <p style={{ fontSize: "20px" }}>Continue shopping</p>
