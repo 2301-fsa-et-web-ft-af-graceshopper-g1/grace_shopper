@@ -63,26 +63,16 @@ router.get("/:id", async (req, res, next) => {
 
 //THESE ROUTES DO NOT WORK YET
 
-router.get("/testing/:id", async (req, res, next) => {
-  try {
-    const cart = await Order.findOne({
-      include: [{ model: Product }],
-      where: {
-        userId: req.params.id,
-      },
-    });
-    if (cart.guest === true) {
-      res.send(cart);
-    } else {
-      res.send(cart);
-    }
-  } catch (error) {
-    next(error);
-  }
-});
+// router.get("/:id", async (req, res, next) => {
+//   try {
+
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 //Adding a product to the cart (POST)
-router.post("/testing/:id", async (req, res, next) => {
+router.post("/:id", async (req, res, next) => {
   try {
     //Find the exisitng Cart
     const cart = await Order.findOne({
@@ -134,7 +124,7 @@ router.post("/testing/:id", async (req, res, next) => {
 });
 
 //Editing our cart (removing item/ updating quantity?)
-router.put("/testing/:id", async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
   try {
     const cart = await Order.findOne({
       include: [{ model: Product }],
