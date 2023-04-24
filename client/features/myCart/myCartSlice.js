@@ -15,26 +15,26 @@ export const fetchCartItemsAsync = createAsyncThunk(
 );
 
 export const addCartItemAsync = createAsyncThunk(
-  "addCartItem",
-  async () => {
+  "cartItems/add",
+  async ({ userId, productId }) => {
     try {
-
+      const response = await axios.post(
+        `http://localhost:8080/api/cart/${userId}`,
+        { productId }
+      );
+      return response.data;
     } catch (err) {
       console.error(err.response.data);
     }
   }
 );
 
-export const removeCartItem = createAsyncThunk(
-  "removeCartItem",
-  async () => {
-    try {
-
-    } catch (err) {
-      console.error(err.response.data);
-    }
+export const removeCartItem = createAsyncThunk("removeCartItem", async () => {
+  try {
+  } catch (err) {
+    console.error(err.response.data);
   }
-);
+});
 
 export const myCartSlice = createSlice({
   name: "cart",
@@ -42,7 +42,10 @@ export const myCartSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchCartItemsAsync.fulfilled, (state, action) => {
-      return action.payload
+      return action.payload;
+    });
+    builder.addCase(addCartItemAsync.fulfilled, (state, action) => {
+      return action.payload;
     });
   },
 });
