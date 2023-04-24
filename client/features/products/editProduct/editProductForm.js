@@ -7,8 +7,11 @@ import {
 import { updateSingleProductAsync } from "../../singleProduct/singleProductSlice";
 import { useNavigate } from "react-router-dom";
 
+import "./editProductForm.css";
+import { deleteSingleProductAsync } from "../../singleProduct/singleProductSlice";
+
 const EditProductForm = (props) => {
-  const { id } = props;
+  const { id, refreshAfterDelete } = props;
   const dispatch = useDispatch();
   const product = useSelector(selectSingleProduct);
   const navigate = useNavigate();
@@ -17,6 +20,7 @@ const EditProductForm = (props) => {
   //console.log(id);
 
   const [isLoading, setIsLoading] = useState(true);
+  const [isDeleted, setIsDeleted] = useState(false);
   const [name, setProductName] = useState("");
   const [price, setProductPrice] = useState("");
   const [imageUrl, setProductImageUrl] = useState("");
@@ -27,6 +31,7 @@ const EditProductForm = (props) => {
     const fetchProduct = () => {
       dispatch(fetchSingleProductAsync(id));
       setIsLoading(false);
+      setIsDeleted(false);
     };
 
     fetchProduct();
@@ -74,12 +79,22 @@ const EditProductForm = (props) => {
     navigate(`/products/${id}`);
   };
 
+  const handleDelete = async (e) => {
+    await dispatch(deleteSingleProductAsync(e.target.value));
+    await refreshAfterDelete();
+    setIsDeleted(true);
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
+  if (isDeleted) {
+    return <div>Product Deleted!</div>;
+  }
+
   return (
-    <div>
+    <div className="editProductFormDiv">
       <strong>Edit Product Below:</strong>
       <form id="editProductForm" onSubmit={handleSubmit}>
         <label htmlFor="name">Product Name:</label>
@@ -116,6 +131,9 @@ const EditProductForm = (props) => {
         />
         <button type="submit">Submit Edit</button>
       </form>
+      <button onClick={handleDelete} value={id}>
+        Delete
+      </button>
     </div>
   );
 };
