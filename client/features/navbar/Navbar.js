@@ -13,13 +13,13 @@ const Navbar = () => {
     dispatch(logout());
     navigate("/login");
   };
+  // todo i am commenting out this code because this causes some errors, we can consider leaving this feature out as it is not part of t1, will uncomment after we get the backend and everything working then we can work on this without any issues
+  // const cartItems = useSelector(selectMyCart).products;
+  // const userId = useSelector((state) => state.auth.me.id);
 
-  const cartItems = useSelector(selectMyCart).products;
-  const userId = useSelector((state) => state.auth.me.id);
-
-  useEffect(() => {
-    dispatch(fetchCartItemsAsync(userId));
-  }, [dispatch, userId]);
+  // useEffect(() => {
+  //   dispatch(fetchCartItemsAsync(userId));
+  // }, [dispatch, userId]);
 
   return (
     <div>
@@ -34,16 +34,17 @@ const Navbar = () => {
             {isAdmin && <Link to="/editProduct">Edit Product</Link>}
             {isAdmin && <Link to="/allUsers">All Users</Link>}
             {isAdmin && <Link to="/cart/orders">All Orders</Link>}
-            <Link to={"/cart"}>My Cart(
-              {cartItems && cartItems.length ? (
-                cartItems
-                  .reduce(
-                    (acc, item) =>
-                      acc + item.order_product.quantity,
+            <Link to={"/cart"}>
+              {" "}
+              My Cart
+              {/* (
+              {cartItems && cartItems.length
+                ? cartItems.reduce(
+                    (acc, item) => acc + item.order_product.quantity,
                     0
                   )
-                ) : 0
-              })
+                : 0}
+              ) */}
             </Link>
             <button type="button" onClick={logoutAndRedirectHome}>
               Logout

@@ -10,7 +10,7 @@ const Products = () => {
 
   useEffect(() => {
     dispatch(fetchProductsAsync());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div>
