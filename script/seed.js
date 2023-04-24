@@ -2,7 +2,7 @@ const {
   db,
   models: { User, Product, Order },
 } = require("../server/db");
-const fetch = require("node-fetch");
+// const fetch = require("node-fetch");
 
 /**
  * seed - this function clears the database, updates tables to
