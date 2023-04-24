@@ -32,16 +32,10 @@ router.get("/orders", requireToken, isAdmin, async (req, res, next) => {
 //GET Single Cart
 router.get("/:id", async (req, res, next) => {
   try {
-    // const cart = await User.findOne({
-    //   include: [{ model: Order, include: [OrderProduct] }],
-    //   where: {
-    //     id: req.params.id,
-    //     checkoutDate: null,
-    //   },
-    // });
     const order = await Order.findOne({
       where: {
-        id: req.params.id,
+        userId: req.params.id,
+        checkoutDate: null,
       },
       include: [
         {

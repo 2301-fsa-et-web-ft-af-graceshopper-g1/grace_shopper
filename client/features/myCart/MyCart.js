@@ -1,18 +1,17 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { fetchCartItemsAsync, selectMyCart } from "./myCartSlice";
 import "./index.css";
 
 const MyCart = () => {
   const dispatch = useDispatch();
-  const cart = useSelector(selectMyCart);
-  const cartItems = cart.products;
-  const { id } = useParams();
+  const cartItems = useSelector(selectMyCart).products;
+  const userId = useSelector((state) => state.auth.me.id);
 
   useEffect(() => {
-    dispatch(fetchCartItemsAsync(id));
-  }, [dispatch, id]);
+    dispatch(fetchCartItemsAsync(userId));
+  }, [dispatch, userId]);
 
   return (
     <div id="cart">
