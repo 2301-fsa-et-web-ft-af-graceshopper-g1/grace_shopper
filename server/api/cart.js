@@ -5,7 +5,7 @@ const {
 const { isAdmin, requireToken } = require("./gatekeepingMiddleware");
 module.exports = router;
 
-//GET All Cart Instances //Admins Only
+//GET All Order Instances, shows User and Users Cart(Order) //Admins Only
 router.get("/orders", requireToken, isAdmin, async (req, res, next) => {
   try {
     const orders = await Order.findAll({
@@ -63,67 +63,93 @@ router.get("/:id", async (req, res, next) => {
 
 //THESE ROUTES DO NOT WORK YET
 
-//Adding a product to the cart
+// router.get("/:id", async (req, res, next) => {
+//   try {
+
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
+//Adding a product to the cart (POST)
 router.post("/:id", async (req, res, next) => {
   try {
-    const user = await User.findOne({
-      include: [{ model: Order }],
+    //Find the exisitng Cart
+    const cart = await Order.findOne({
+      include: [{ model: Product }],
       where: {
-        id: req.params.id,
+        userId: req.params.id,
       },
     });
-
-    const orders = await Order.findOne({
-      include: [{ model: OrderProduct }],
+    // Within the cart, search for an item based on productId
+    const existingItem = await OrderProduct.findOne({
       where: {
-        userId: user.id,
-        checkoutDate: null,
+        productId: req.body.productId,
+        orderId: cart.id,
       },
     });
-    // console.log("Our orders", orders);
-    // console.log("Cart:", cart);
-    const newItem = await Product.findOne({
-      where: {
-        id: req.body.productId,
-      },
-    });
-    console.log("New Item:", newItem);
-    let price = Number(newItem.price);
-    const [orderProduct, createdOrderProduct] = await OrderProduct.findOrCreate(
-      {
+    //If the item does not exist, create a new order product based on productId
+    if (!existingItem) {
+      const product = await Product.findOne({
         where: {
-          productId: 2,
-          orderId: user.orders.id,
-          price: price,
-          quantity: 1,
+          id: req.body.productId,
         },
-      }
-    );
-
-    // const [newOrderItem, existingOrderItem] = await OrderProduct.findOrCreate({
-    //   quantity: 1,
-    //   price: price,
-    //   orderId: 5,
-    //   productId: 4,
-    // });
-    // console.log("This is the new order item", newOrderItem);
-    // cart.orders[0].order_products.push(newOrderItem);
-    if (createdOrderProduct) {
-      console.log(createdOrderProduct);
-      res.send("Created Order Product:", createdOrderProduct);
+      });
+      const newItem = await OrderProduct.create({
+        orderId: cart.id,
+        productId: product.id,
+        price: product.price,
+        quantity: req.body.quantity,
+      });
+      //If the item does exist, increase its quantity by 1
     } else {
-      console.log("Existing Order Product", orderProduct);
-      orderProduct.increment({ quantity: 1 });
-      res.send(orderProduct);
+      await existingItem.update({
+        quantity: existingItem.quantity + req.body.quantity,
+      });
     }
+    //Access and send the updated cart
+    const updatedCart = await Order.findOne({
+      include: [{ model: Product }],
+      where: {
+        userId: req.params.id,
+      },
+    });
+    //console.log(updatedCart)
+    res.send(updatedCart);
+    // res.send(cart);
+    // res.send(existingItem);
   } catch (error) {
     next(error);
   }
 });
 
-//Editing our cart (removing item/updating quantity of single item)
-router.put("/cart", async (req, res, next) => {
+//Editing our cart (removing item/ updating quantity?)
+router.put("/:id", async (req, res, next) => {
   try {
+    const cart = await Order.findOne({
+      include: [{ model: Product }],
+      where: {
+        userId: req.params.id,
+      },
+    });
+    const existingItem = await OrderProduct.findOne({
+      where: {
+        productId: req.body.productId,
+        orderId: cart.id,
+      },
+    });
+    //console.log(existingItem)
+    //Removing(destroying) the existing item
+    await existingItem.destroy();
+    //Access and return the updated cart
+    const updatedCart = await Order.findOne({
+      include: [{ model: Product }],
+      where: {
+        userId: req.params.id,
+      },
+    });
+    //console.log(updatedCart)
+    res.send(updatedCart);
   } catch (error) {
     next(error);
   }
