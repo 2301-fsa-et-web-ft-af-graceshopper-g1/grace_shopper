@@ -22,14 +22,16 @@ const SingleProduct = () => {
     dispatch(fetchSingleProductAsync(id));
   }, [dispatch, id]);
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (userId && !guestUser) {
-      dispatch(fetchCartItemsAsync(userId));
-      dispatch(addCartItemAsync({ userId: userId, productId: product.id }));
+      await dispatch(fetchCartItemsAsync(userId));
+      await dispatch(
+        addCartItemAsync({ userId: userId, productId: product.id })
+      );
     } else if (guestUser && !userId) {
       console.log(guestUser.userId);
-      dispatch(fetchCartItemsAsync(guestUser.userId));
-      dispatch(
+      await dispatch(fetchCartItemsAsync(guestUser.userId));
+      await dispatch(
         addCartItemAsync({ userId: guestUser.userId, productId: product.id })
       );
     }
