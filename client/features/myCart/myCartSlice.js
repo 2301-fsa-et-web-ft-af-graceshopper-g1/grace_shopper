@@ -29,6 +29,24 @@ export const addCartItemAsync = createAsyncThunk(
   }
 );
 
+export const updateCartAsync = createAsyncThunk(
+  "cartItems/edit",
+  async ({ orderId, productId, quantity }) => {
+    try {
+      if (orderId) {
+        await axios.put(`http://localhost:8080/api/carts/${orderId}`, {
+          productId,
+          quantity,
+        });
+      }
+      return { productId, quantity };
+    } catch (err) {
+      console.error(err.response.data);
+      throw err;
+    }
+  }
+);
+
 export const removeCartItem = createAsyncThunk("removeCartItem", async () => {
   try {
   } catch (err) {
@@ -45,6 +63,9 @@ export const myCartSlice = createSlice({
       return action.payload;
     });
     builder.addCase(addCartItemAsync.fulfilled, (state, action) => {
+      return action.payload;
+    });
+    builder.addCase(updateCartAsync.fulfilled, (state, action) => {
       return action.payload;
     });
   },
