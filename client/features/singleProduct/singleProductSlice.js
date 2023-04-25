@@ -45,7 +45,7 @@ export const updateSingleProductAsync = createAsyncThunk(
     const token = localStorage.getItem("token");
     try {
       await axios.put(
-        `http://localhost:8080/api/products/${id}`,
+        `/api/products/${id}`,
         {
           name,
           price,
@@ -70,7 +70,7 @@ export const deleteSingleProductAsync = createAsyncThunk(
   async (id) => {
     const token = localStorage.getItem("token");
     try {
-      await axios.delete(`http://localhost:8080/api/products/${id}`, {
+      await axios.delete(`/api/products/${id}`, {
         headers: {
           authorization: `${token}`,
         },
