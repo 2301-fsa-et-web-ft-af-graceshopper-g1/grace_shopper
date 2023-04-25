@@ -31,26 +31,11 @@ export const addCartItemAsync = createAsyncThunk(
 
 export const handleCheckoutAsync = createAsyncThunk(
   "handleCheckoutAsync",
-  async ({userId}) => {
+  async ({ userId }) => {
     try {
       const checkoutResponse = await axios.put(
         `http://localhost:8080/api/checkout/${userId}`,
-        {userId}
-      );
-      return checkoutResponse.checkoutDate;
-    } catch (err) {
-      console.error(err.response.data);
-    }
-  }
-);
-
-export const handleCheckoutAsync = createAsyncThunk(
-  "handleCheckoutAsync",
-  async ({userId}) => {
-    try {
-      const checkoutResponse = await axios.put(
-        `http://localhost:8080/api/checkout/${userId}`,
-        {userId}
+        { userId }
       );
       return checkoutResponse.checkoutDate;
     } catch (err) {
