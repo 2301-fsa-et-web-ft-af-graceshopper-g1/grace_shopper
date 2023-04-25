@@ -7,6 +7,7 @@ import {
 } from "./singleProductSlice";
 import { addCartItemAsync } from "../myCart/myCartSlice";
 import "./singleProduct.css";
+import { fetchCartItemsAsync } from "../myCart/myCartSlice";
 
 const SingleProduct = () => {
   const dispatch = useDispatch();
@@ -21,11 +22,16 @@ const SingleProduct = () => {
     dispatch(fetchSingleProductAsync(id));
   }, [dispatch, id]);
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (userId && !guestUser) {
-      dispatch(addCartItemAsync({ userId: userId, productId: product.id }));
+      await dispatch(fetchCartItemsAsync(userId));
+      await dispatch(
+        addCartItemAsync({ userId: userId, productId: product.id })
+      );
     } else if (guestUser && !userId) {
-      dispatch(
+      console.log(guestUser.userId);
+      await dispatch(fetchCartItemsAsync(guestUser.userId));
+      await dispatch(
         addCartItemAsync({ userId: guestUser.userId, productId: product.id })
       );
     }

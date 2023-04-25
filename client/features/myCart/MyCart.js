@@ -22,13 +22,15 @@ const MyCart = () => {
 
   //todo loading screen for transition between user to logged out
 
-  const handleCheckout = (event) => {
+  const handleCheckout = async (event) => {
     event.preventDefault();
     if (userId && !guestUser) {
-      dispatch(handleCheckoutAsync({ userId }));
+      await dispatch(handleCheckoutAsync({ userId }));
+      await dispatch(fetchCartItemsAsync(userId));
     } else if (guestUser && !userId) {
       console.log(guestUser.userId);
-      dispatch(handleCheckoutAsync({ userId: guestUser.userId }));
+      await dispatch(handleCheckoutAsync({ userId: guestUser.userId }));
+      await dispatch(fetchCartItemsAsync(guestUser.userId));
     }
   };
 
@@ -36,7 +38,7 @@ const MyCart = () => {
     () => {
       if (userId && !guestUser) {
         dispatch(fetchCartItemsAsync(userId));
-      } else if (guestUser) {
+      } else if (guestUser && !userId) {
         console.log(guestUser.userId);
         dispatch(fetchCartItemsAsync(guestUser.userId));
       }
