@@ -3,6 +3,9 @@
   "version": "2.0.0",
   "description": "Grace Shopping!",
   "main": "index.js",
+  "engines": {
+    "node": "v18.16.0"
+  },
   "scripts": {
     "build": "webpack",
     "build:dev": "npm run build -- --watch --mode=development",
