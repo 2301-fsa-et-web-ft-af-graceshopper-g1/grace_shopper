@@ -18,14 +18,20 @@ const MyCart = () => {
   const guestUserJSON = window.localStorage.getItem("guestUser");
   const guestUser = guestUserJSON ? JSON.parse(guestUserJSON) : null;
 
-  useEffect(() => {
-    if (userId && !guestUser) {
-      dispatch(fetchCartItemsAsync(userId));
-    } else if (guestUser) {
-      console.log(guestUser.userId);
-      dispatch(fetchCartItemsAsync(guestUser.userId));
-    }
-  }, [dispatch, userId, guestUser]);
+  //todo loading screen for transition between user to logged out
+
+  useEffect(
+    () => {
+      if (userId && !guestUser) {
+        dispatch(fetchCartItemsAsync(userId));
+      } else if (guestUser) {
+        console.log(guestUser.userId);
+        dispatch(fetchCartItemsAsync(guestUser.userId));
+      }
+    },
+    [dispatch, userId],
+    guestUser
+  );
 
   const handleRemove = (productId, event) => {
     event.preventDefault();
@@ -36,9 +42,9 @@ const MyCart = () => {
     }
   };
 
-  // useEffect(() => {
-  //   setMemoCartItems(cartItems);
-  // }, [cartItems]);
+  useEffect(() => {
+    setMemoCartItems(cartItems);
+  }, [cartItems]);
 
   const handleQuantityChange = (productId, quantity) => {
     dispatch(updateCartAsync({ productId, quantity })).then(() => {

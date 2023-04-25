@@ -81,27 +81,27 @@ router.get("/:id", async (req, res, next) => {
 //THESE ROUTES DO NOT WORK YET
 
 //GET cart by the orderId
-router.get("/testing/:id", async (req, res, next) => {
-  try {
-    //GET an order and its user
-    const cart = await Order.findOne({
-      include: [
-        { model: User, attributes: ["id", "username"] },
-        { model: Product },
-      ],
-      where: {
-        userId: req.params.id,
-        checkoutDate: null,
-      },
-    });
-    res.send(cart);
-  } catch (error) {
-    next(error);
-  }
-});
+// router.get("/testing/:id", async (req, res, next) => {
+//   try {
+//     //GET an order and its user
+//     const cart = await Order.findOne({
+//       include: [
+//         { model: User, attributes: ["id", "username"] },
+//         { model: Product },
+//       ],
+//       where: {
+//         userId: req.params.id,
+//         checkoutDate: null,
+//       },
+//     });
+//     res.send(cart);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 //Adding a product to the cart (POST)
-router.post("/testing/:id", async (req, res, next) => {
+router.post("/:id", async (req, res, next) => {
   try {
     const cart = await Order.findOne({
       include: [{ model: Product }],
@@ -156,7 +156,7 @@ router.post("/testing/:id", async (req, res, next) => {
 });
 
 //Editing our cart (removing item/ updating quantity?)
-router.put("/testing/:id", async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
   try {
     const cart = await Order.findOne({
       include: [{ model: Product }],
