@@ -115,7 +115,6 @@ async function seed() {
     await Order.create({
       userId: 4,
       guest: false,
-      checkoutDate: "Tue Jul 06 2021 07:55:33",
     }),
     await Order.create({ userId: 4, guest: false }),
     await Order.create(),
