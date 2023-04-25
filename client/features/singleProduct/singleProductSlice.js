@@ -65,6 +65,23 @@ export const updateSingleProductAsync = createAsyncThunk(
   }
 );
 
+export const deleteSingleProductAsync = createAsyncThunk(
+  "deleteSingleProduct",
+  async (id) => {
+    const token = localStorage.getItem("token");
+    try {
+      await axios.delete(`http://localhost:8080/api/products/${id}`, {
+        headers: {
+          authorization: `${token}`,
+        },
+      });
+      return "deleted";
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 export const singleProductSlice = createSlice({
   name: "singleProduct",
   initialState: {},
@@ -72,6 +89,9 @@ export const singleProductSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(fetchSingleProductAsync.fulfilled, (state, action) => {
       return action.payload;
+    });
+    builder.addCase(addSingleProductAsync.fulfilled, (state, action) => {
+      state.push(action.payload);
     });
   },
 });

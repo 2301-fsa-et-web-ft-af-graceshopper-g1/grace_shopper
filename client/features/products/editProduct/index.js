@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProductsAsync, selectProducts } from "../productsSlice";
 import EditProductForm from "./editProductForm";
+import "./index.css";
 
 const EditProduct = () => {
   // i want a view of all the products in a options menu
@@ -17,12 +18,17 @@ const EditProduct = () => {
   };
 
   useEffect(() => {
+    setSelectedValue("");
     dispatch(fetchProductsAsync());
   }, [dispatch]);
 
+  const refreshAfterDelete = () => {
+    dispatch(fetchProductsAsync());
+  };
+
   return (
     <div className="editProductsMenu">
-      Select Product to Edit
+      Select Product to Edit: {"  "}
       <select value={selectedValue} onChange={handleChange}>
         <option value="">Select a product</option>
         {products.map((product) => {
@@ -36,10 +42,13 @@ const EditProduct = () => {
       <div className="editSingleProduct">
         {selectedValue.length ? (
           <div>
-            <EditProductForm id={selectedValue} />
+            <EditProductForm
+              id={selectedValue}
+              refreshAfterDelete={refreshAfterDelete}
+            />
           </div>
         ) : (
-          <strong>{`Please select the product you want to edit`}</strong>
+          <strong>{`Please select the product you want to edit.`}</strong>
         )}
       </div>
     </div>
