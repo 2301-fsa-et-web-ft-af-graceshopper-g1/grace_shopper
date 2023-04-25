@@ -4,9 +4,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 export const fetchSingleProductAsync = createAsyncThunk(
   "singleProduct/fetchOne",
   async (id) => {
-    const response = await axios.get(
-      `http://localhost:8080/api/products/${id}`
-    );
+    const response = await axios.get(`/api/products/${id}`);
     return response.data;
   }
 );
@@ -18,7 +16,7 @@ export const addSingleProductAsync = createAsyncThunk(
       const token = localStorage.getItem("token");
       //console.log(token);
       const { data } = await axios.post(
-        "http://localhost:8080/api/products",
+        "/api/products",
         {
           name,
           price,
