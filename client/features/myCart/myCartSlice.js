@@ -46,9 +46,9 @@ export const updateCartAsync = createAsyncThunk(
 
 export const removeCartItem = createAsyncThunk(
   "removeCartItem",
-  async ({ userId }) => {
+  async ({ userId, productId }) => {
     try {
-      const response = await axios.put(`/api/cart/${userId}`, { userId });
+      const response = await axios.put(`/api/cart/${userId}`, { productId });
       return response.data;
     } catch (err) {
       console.error(err.response.data);
@@ -58,10 +58,10 @@ export const removeCartItem = createAsyncThunk(
 
 export const handleCheckoutAsync = createAsyncThunk(
   "handleCheckoutAsync",
-  async ({ userId, orderId }) => {
+  async ({ userId }) => {
     try {
       const checkoutResponse = await axios.put(`/api/cart/checkout/${userId}`, {
-        orderId,
+        userId,
       });
       return checkoutResponse;
     } catch (err) {
