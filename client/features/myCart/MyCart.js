@@ -37,8 +37,8 @@ const MyCart = () => {
     event.preventDefault();
     if (userId && !guestUser) {
       dispatch(removeCartItem({ userId, productId }));
-    } else if (guestUser) {
-      dispatch(fetchCartItemsAsync({ userId: guestUser.userId, productId }));
+    } else if (guestUser && !userId) {
+      dispatch(removeCartItem({ userId: guestUser.userId, productId }));
     }
   };
 
