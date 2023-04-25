@@ -49,11 +49,11 @@ export const updateCartAsync = createAsyncThunk(
 
 export const removeCartItem = createAsyncThunk(
   "removeCartItem",
-  async ({ userId, productId }) => {
+  async ({ userId }) => {
     try {
       const response = await axios.put(
         `http://localhost:8080/api/cart/${userId}`,
-        { productId }
+        { userId }
       );
       return response.data;
     } catch (err) {
@@ -64,13 +64,13 @@ export const removeCartItem = createAsyncThunk(
 
 export const handleCheckoutAsync = createAsyncThunk(
   "handleCheckoutAsync",
-  async ({ userId }) => {
+  async ({ userId, orderId }) => {
     try {
       const checkoutResponse = await axios.put(
-        `http://localhost:8080/api/checkout/${userId}`,
-        { userId }
+        `http://localhost:8080/api/cart/checkout/${userId}`,
+        { orderId }
       );
-      return checkoutResponse.checkoutDate;
+      return checkoutResponse;
     } catch (err) {
       console.error(err.response.data);
     }
