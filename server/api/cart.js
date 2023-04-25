@@ -34,7 +34,7 @@ router.get("/:id", async (req, res, next) => {
   try {
     const order = await Order.findOne({
       where: {
-        id: req.params.id,
+        userId: req.params.id,
         checkoutDate: null,
       },
       include: [
@@ -51,11 +51,28 @@ router.get("/:id", async (req, res, next) => {
         },
       ],
     });
-    if (order) {
-      res.send(order);
+    const existingUser = await User.findOne({
+      where: {
+        id: req.params.id,
+      },
+    });
+    if (!existingUser) {
+      const guestUser = await User.create({
+        id: req.params.id,
+        username: `Guest${req.params.id}`,
+      });
+      const guestOrder = await Order.create({
+        userId: guestUser.id,
+      });
+      res.send(guestOrder);
     } else {
-      res.sendStatus(404);
+      res.send(order);
     }
+    // if (order) {
+    //   res.send(order);
+    // } else {
+    //   res.sendStatus(404);
+    // }
   } catch (error) {
     next(error);
   }

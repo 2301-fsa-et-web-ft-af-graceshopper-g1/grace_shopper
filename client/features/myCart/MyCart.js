@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchCartItemsAsync, removeCartItem, selectMyCart } from "./myCartSlice";
+import {
+  fetchCartItemsAsync,
+  removeCartItem,
+  selectMyCart,
+} from "./myCartSlice";
 import "./index.css";
 import { updateCartAsync } from "./myCartSlice";
 
@@ -32,9 +36,9 @@ const MyCart = () => {
     }
   };
 
-  useEffect(() => {
-    setMemoCartItems(cartItems);
-  }, [cartItems]);
+  // useEffect(() => {
+  //   setMemoCartItems(cartItems);
+  // }, [cartItems]);
 
   const handleQuantityChange = (productId, quantity) => {
     dispatch(updateCartAsync({ productId, quantity })).then(() => {
@@ -73,10 +77,10 @@ const MyCart = () => {
                     style={{ width: "100px", height: "100px" }}
                   />
                   {item.stock && item.stock > 0 ? (
-                      <p>{item.stock} in stock</p>
-                    ) : (
-                      <p>Out of stock</p>
-                    )}
+                    <p>{item.stock} in stock</p>
+                  ) : (
+                    <p>Out of stock</p>
+                  )}
                 </div>
                 <div className="price-column">
                   <span style={{ margin: "10px" }}>
