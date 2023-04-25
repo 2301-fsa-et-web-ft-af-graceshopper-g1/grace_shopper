@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchCartItemsAsync, selectMyCart } from "./myCartSlice";
+import { fetchCartItemsAsync, removeCartItem, selectMyCart } from "./myCartSlice";
 import "./index.css";
 
 const MyCart = () => {
@@ -21,6 +21,15 @@ const MyCart = () => {
     }
   }, [dispatch, userId, guestUser]);
 
+  const handleRemove = (productId, event) => {
+    event.preventDefault();
+    if (userId && !guestUser) {
+      dispatch(removeCartItem({ userId, productId }));
+    } else if (guestUser) {
+      dispatch(fetchCartItemsAsync({ userId: guestUser.userId, productId }));
+    }
+  };
+
   return (
     <div id="cart">
       <h2 className="products-header">Shopping Cart</h2>
@@ -32,17 +41,19 @@ const MyCart = () => {
                 <h3>{item.name}</h3>
               </Link>
               <div className="cart-container">
-                <img
-                  src={item.imageUrl}
-                  alt={item.name}
-                  style={{ width: "100px", height: "100px" }}
-                />
-                <div className="price-column">
+                <div className="image-column">
+                  <img
+                    src={item.imageUrl}
+                    alt={item.name}
+                    style={{ width: "100px", height: "100px" }}
+                  />
                   {item.stock && item.stock > 0 ? (
-                    <p>In stock</p>
-                  ) : (
-                    <p>Out of stock</p>
-                  )}
+                      <p>{item.stock} in stock</p>
+                    ) : (
+                      <p>Out of stock</p>
+                    )}
+                </div>
+                <div className="price-column">
                   <span style={{ margin: "10px" }}>
                     <button
                       type="button"
@@ -67,6 +78,9 @@ const MyCart = () => {
                     </button>
                   </span>
                   <p>Price: ${item.order_product.price}</p>
+                  <button onClick={(event) => handleRemove(item.id, event)}>
+                    Remove from Cart
+                  </button>
                 </div>
               </div>
               <hr />
