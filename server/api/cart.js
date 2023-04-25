@@ -34,7 +34,7 @@ router.get("/:id", async (req, res, next) => {
   try {
     const order = await Order.findOne({
       where: {
-        userId: req.params.id,
+        id: req.params.id,
         checkoutDate: null,
       },
       include: [
@@ -73,36 +73,79 @@ router.get("/testing/:id", async (req, res, next) => {
         { model: Product },
       ],
       where: {
-        id: req.params.id,
+        userId: req.params.id,
+        checkoutDate: null,
       },
     });
-    if (!cart) {
-      const guestCart = await Order.create();
-      localStorage.setItem("cart", guestCart);
-      res.send(localStorage.getItem("cart"));
-    } else {
-      res.send(cart);
-    }
+    res.send(cart);
   } catch (error) {
     next(error);
   }
 });
 
 //Adding a product to the cart (POST)
-router.post("/:id", async (req, res, next) => {
+router.post("/testing/:id", async (req, res, next) => {
   try {
+    const cart = await Order.findOne({
+      include: [{ model: Product }],
+      where: {
+        userId: req.params.id,
+        checkoutDate: null,
+      },
+    });
+    // Within the cart, search for an item based on productId
+    const existingItem = await OrderProduct.findOne({
+      where: {
+        productId: req.body.productId,
+        orderId: cart.id,
+      },
+    });
+    //If the item does not exist, create a new order product based on productId
+    if (!existingItem) {
+      const product = await Product.findOne({
+        where: {
+          id: req.body.productId,
+        },
+      });
+      const newItem = await OrderProduct.create({
+        orderId: cart.id,
+        productId: product.id,
+        price: product.price,
+      });
+      //If the item does exist, increase its quantity by 1
+    } else {
+      await existingItem.update({
+        quantity: existingItem.quantity + 1,
+      });
+    }
+    //Access and send the updated cart
+    const updatedCart = await Order.findOne({
+      include: [
+        { model: User, attributes: ["id", "username"] },
+        { model: Product },
+      ],
+      where: {
+        userId: req.params.id,
+        checkoutDate: null,
+      },
+    });
+    //console.log(updatedCart)
+    res.send(updatedCart);
+    // res.send(cart);
+    // res.send(existingItem);
   } catch (error) {
     next(error);
   }
 });
 
 //Editing our cart (removing item/ updating quantity?)
-router.put("/:id", async (req, res, next) => {
+router.put("/testing/:id", async (req, res, next) => {
   try {
     const cart = await Order.findOne({
       include: [{ model: Product }],
       where: {
         userId: req.params.id,
+        checkoutDate: null,
       },
     });
     const existingItem = await OrderProduct.findOne({
@@ -116,13 +159,54 @@ router.put("/:id", async (req, res, next) => {
     await existingItem.destroy();
     //Access and return the updated cart
     const updatedCart = await Order.findOne({
-      include: [{ model: Product }],
+      include: [
+        { model: User, attributes: ["id", "username"] },
+        { model: Product },
+      ],
       where: {
         userId: req.params.id,
+        checkoutDate: null,
       },
     });
     //console.log(updatedCart)
     res.send(updatedCart);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//Checkout Route. Will clear the existing cart and create a new one based on userId
+router.put("/checkout/:id", async (req, res, next) => {
+  try {
+    //Find the cart by passed in Id
+    const cart = await Order.findOne({
+      include: [{ model: Product }],
+      where: {
+        userId: req.params.id,
+        checkoutDate: null,
+      },
+    });
+    //Loop through the products
+    cart.products.forEach(async (product) => {
+      //Find each product in the cart
+      const productInCart = await Product.findOne({
+        where: { id: product.id },
+      });
+      //Update the existing Products stock after checkout
+      await productInCart.update({
+        stock: productInCart.stock - product.order_product.quantity,
+      });
+    });
+    //Set the carts checkoutDate to null so this cart is no longer active
+    await cart.update({
+      checkoutDate: Date.now(),
+    });
+    //Create and return new empty cart on user, have to manually set guest to false(?)
+    const newCart = await Order.create({
+      userId: req.params.id,
+      guest: false,
+    });
+    res.send(newCart);
   } catch (error) {
     next(error);
   }
