@@ -12,7 +12,7 @@ import EditProduct from "../features/products/editProduct";
 import Checkout from "../features/checkout/Checkout";
 import AllUsers from "../features/users/allUsers";
 import AllOrders from "../features/allOrders/AllOrders";
-
+import createGuestUser from "./guestUserFeature";
 /**
  * COMPONENT
  */
@@ -25,6 +25,18 @@ const AppRoutes = () => {
   useEffect(() => {
     dispatch(me());
   }, []);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      if (!localStorage.getItem("guestUser")) {
+        createGuestUser();
+      }
+    }
+  }, [isLoggedIn]);
+
+  if (isLoggedIn && localStorage.getItem("guestUser")) {
+    localStorage.removeItem("guestUser");
+  }
 
   return (
     <div>

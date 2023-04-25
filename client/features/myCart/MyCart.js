@@ -9,9 +9,17 @@ const MyCart = () => {
   const cartItems = useSelector(selectMyCart).products;
   const userId = useSelector((state) => state.auth.me.id);
 
+  const guestUserJSON = window.localStorage.getItem("guestUser");
+  const guestUser = guestUserJSON ? JSON.parse(guestUserJSON) : null;
+
   useEffect(() => {
-    dispatch(fetchCartItemsAsync(userId));
-  }, [dispatch, userId]);
+    if (userId && !guestUser) {
+      dispatch(fetchCartItemsAsync(userId));
+    } else if (guestUser) {
+      console.log(guestUser.userId);
+      dispatch(fetchCartItemsAsync(guestUser.userId));
+    }
+  }, [dispatch, userId, guestUser]);
 
   return (
     <div id="cart">

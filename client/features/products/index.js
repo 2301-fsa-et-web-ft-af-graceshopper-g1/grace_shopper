@@ -10,7 +10,9 @@ const Products = () => {
 
   useEffect(() => {
     dispatch(fetchProductsAsync());
-  }, []);
+  }, [dispatch]);
+
+  //todo apparently dispatch is the same as [] but [dispatch] is considered best practice by react, so if we encounter another bug or instance with grace shopper it might not be from line 13
 
   return (
     <div>
