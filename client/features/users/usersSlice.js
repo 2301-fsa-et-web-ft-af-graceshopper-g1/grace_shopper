@@ -5,7 +5,7 @@ export const fetchAllUsers = createAsyncThunk("users/fetchall", async () => {
   try {
     const token = localStorage.getItem("token");
     console.log(token);
-    const { data } = await axios.get("http://localhost:8080/api/users", {
+    const { data } = await axios.get("/api/users", {
       headers: { authorization: `${token}` },
     });
     return data;

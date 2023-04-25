@@ -1,18 +1,16 @@
 import axios from "axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-export const fetchAllOrders = createAsyncThunk(
-  "orders/fetchAll",
-  async () => {
-    try {
-      const token = localStorage.getItem("token");
-      const { data } = await axios.get("http://localhost:8080/api/cart/orders", {
-        headers: { authorization: `${token}` },
-      });
-      return data;
-    } catch (err) {
-      console.error(err);
-    }
+export const fetchAllOrders = createAsyncThunk("orders/fetchAll", async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const { data } = await axios.get("/api/cart/orders", {
+      headers: { authorization: `${token}` },
+    });
+    return data;
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 export const allOrdersSlice = createSlice({
