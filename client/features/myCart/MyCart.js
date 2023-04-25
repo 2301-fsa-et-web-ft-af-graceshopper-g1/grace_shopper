@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchCartItemsAsync, selectMyCart } from "./myCartSlice";
+import { fetchCartItemsAsync, handleCheckoutAsync, selectMyCart } from "./myCartSlice";
 import "./index.css";
 
 const MyCart = () => {
@@ -11,6 +11,10 @@ const MyCart = () => {
 
   const guestUserJSON = window.localStorage.getItem("guestUser");
   const guestUser = guestUserJSON ? JSON.parse(guestUserJSON) : null;
+
+  const handleCheckout = () => { 
+    dispatch(handleCheckoutAsync(userId))
+  }
 
   useEffect(() => {
     if (userId && !guestUser) {
@@ -87,8 +91,8 @@ const MyCart = () => {
         <p>Your cart is empty</p>
       )}
       <div id="checkout-column">
-        <Link to="/checkout">
-          <button>Checkout</button>
+        <Link to={`/checkout/`}>
+          <button onClick={handleCheckout}>Checkout</button>
         </Link>
         <Link to="/products">
           <p style={{ fontSize: "20px" }}>Continue shopping</p>
