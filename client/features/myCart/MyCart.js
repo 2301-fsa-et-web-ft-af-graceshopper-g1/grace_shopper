@@ -1,13 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { fetchCartItemsAsync, removeCartItem, selectMyCart } from "./myCartSlice";
 import "./index.css";
+import { updateCartAsync } from "./myCartSlice";
 
 const MyCart = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector(selectMyCart).products;
   const userId = useSelector((state) => state.auth.me.id);
+  const [memoCartItems, setMemoCartItems] = useState(cartItems);
 
   const guestUserJSON = window.localStorage.getItem("guestUser");
   const guestUser = guestUserJSON ? JSON.parse(guestUserJSON) : null;
@@ -30,12 +32,35 @@ const MyCart = () => {
     }
   };
 
+  useEffect(() => {
+    setMemoCartItems(cartItems);
+  }, [cartItems]);
+
+  const handleQuantityChange = (productId, quantity) => {
+    dispatch(updateCartAsync({ productId, quantity })).then(() => {
+      const itemIndex = memoCartItems.findIndex(
+        (item) => item.id === productId
+      );
+      if (itemIndex !== -1) {
+        const updatedCartItems = [...memoCartItems];
+        updatedCartItems[itemIndex] = {
+          ...updatedCartItems[itemIndex],
+          order_product: {
+            ...updatedCartItems[itemIndex].order_product,
+            quantity,
+          },
+        };
+        setMemoCartItems(updatedCartItems);
+      }
+    });
+  };
+
   return (
     <div id="cart">
       <h2 className="products-header">Shopping Cart</h2>
-      {cartItems && cartItems.length ? (
+      {memoCartItems && memoCartItems.length ? (
         <div>
-          {cartItems.map((item) => (
+          {memoCartItems.map((item) => (
             <div className="cart-item" key={item.id}>
               <Link to={`/products/${item.id}`}>
                 <h3>{item.name}</h3>
@@ -60,7 +85,10 @@ const MyCart = () => {
                       className="small-quantity-button"
                       disabled={item.order_product.quantity <= 1 && true}
                       onClick={() => {
-                        item.order_product.quantity - 1;
+                        handleQuantityChange(
+                          item.id,
+                          item.order_product.quantity - 1
+                        );
                       }}
                     >
                       -
@@ -72,7 +100,12 @@ const MyCart = () => {
                     <button
                       type="button"
                       className="small-quantity-button"
-                      onClick={() => item.order_product.quantity + 1}
+                      onClick={() => {
+                        handleQuantityChange(
+                          item.id,
+                          item.order_product.quantity + 1
+                        );
+                      }}
                     >
                       +
                     </button>
@@ -88,7 +121,7 @@ const MyCart = () => {
           ))}
           <h3 style={{ textAlign: "center" }}>
             Subtotal: $
-            {cartItems
+            {memoCartItems
               .reduce(
                 (acc, item) =>
                   acc + item.order_product.price * item.order_product.quantity,
