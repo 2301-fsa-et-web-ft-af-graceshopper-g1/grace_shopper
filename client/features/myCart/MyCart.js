@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchCartItemsAsync, selectMyCart } from "./myCartSlice";
+import { fetchCartItemsAsync, removeCartItem, selectMyCart } from "./myCartSlice";
 import "./index.css";
 import { updateCartAsync } from "./myCartSlice";
 
@@ -11,9 +11,26 @@ const MyCart = () => {
   const userId = useSelector((state) => state.auth.me.id);
   const [memoCartItems, setMemoCartItems] = useState(cartItems);
 
+  const guestUserJSON = window.localStorage.getItem("guestUser");
+  const guestUser = guestUserJSON ? JSON.parse(guestUserJSON) : null;
+
   useEffect(() => {
-    dispatch(fetchCartItemsAsync(userId));
-  }, [dispatch, userId]);
+    if (userId && !guestUser) {
+      dispatch(fetchCartItemsAsync(userId));
+    } else if (guestUser) {
+      console.log(guestUser.userId);
+      dispatch(fetchCartItemsAsync(guestUser.userId));
+    }
+  }, [dispatch, userId, guestUser]);
+
+  const handleRemove = (productId, event) => {
+    event.preventDefault();
+    if (userId && !guestUser) {
+      dispatch(removeCartItem({ userId, productId }));
+    } else if (guestUser) {
+      dispatch(fetchCartItemsAsync({ userId: guestUser.userId, productId }));
+    }
+  };
 
   useEffect(() => {
     setMemoCartItems(cartItems);
@@ -49,17 +66,19 @@ const MyCart = () => {
                 <h3>{item.name}</h3>
               </Link>
               <div className="cart-container">
-                <img
-                  src={item.imageUrl}
-                  alt={item.name}
-                  style={{ width: "100px", height: "100px" }}
-                />
-                <div className="price-column">
+                <div className="image-column">
+                  <img
+                    src={item.imageUrl}
+                    alt={item.name}
+                    style={{ width: "100px", height: "100px" }}
+                  />
                   {item.stock && item.stock > 0 ? (
-                    <p>In stock</p>
-                  ) : (
-                    <p>Out of stock</p>
-                  )}
+                      <p>{item.stock} in stock</p>
+                    ) : (
+                      <p>Out of stock</p>
+                    )}
+                </div>
+                <div className="price-column">
                   <span style={{ margin: "10px" }}>
                     <button
                       type="button"
@@ -92,6 +111,9 @@ const MyCart = () => {
                     </button>
                   </span>
                   <p>Price: ${item.order_product.price}</p>
+                  <button onClick={(event) => handleRemove(item.id, event)}>
+                    Remove from Cart
+                  </button>
                 </div>
               </div>
               <hr />
