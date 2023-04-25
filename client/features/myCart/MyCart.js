@@ -36,7 +36,7 @@ const MyCart = () => {
     () => {
       if (userId && !guestUser) {
         dispatch(fetchCartItemsAsync(userId));
-      } else if (guestUser) {
+      } else if (guestUser && !userId) {
         console.log(guestUser.userId);
         dispatch(fetchCartItemsAsync(guestUser.userId));
       }
