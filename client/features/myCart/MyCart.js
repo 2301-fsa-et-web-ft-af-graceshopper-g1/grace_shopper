@@ -23,7 +23,13 @@ const MyCart = () => {
   //todo loading screen for transition between user to logged out
 
   const handleCheckout = () => {
-    dispatch(handleCheckoutAsync(userId));
+    event.preventDefault();
+    if (userId && !guestUser) {
+      dispatch(handleCheckoutAsync({ userId }));
+    } else if (guestUser) {
+      console.log(guestUser.userId);
+      dispatch(handleCheckoutAsync(guestUser.userId));
+    }
   };
 
   useEffect(
