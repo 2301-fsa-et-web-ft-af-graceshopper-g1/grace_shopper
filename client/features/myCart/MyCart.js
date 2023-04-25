@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   fetchCartItemsAsync,
   removeCartItem,
@@ -21,6 +21,7 @@ const MyCart = () => {
   const guestUser = guestUserJSON ? JSON.parse(guestUserJSON) : null;
 
   //todo loading screen for transition between user to logged out
+  const navigate = useNavigate();
 
   const handleCheckout = async (event) => {
     event.preventDefault();
@@ -32,6 +33,7 @@ const MyCart = () => {
       await dispatch(handleCheckoutAsync({ userId: guestUser.userId }));
       await dispatch(fetchCartItemsAsync(guestUser.userId));
     }
+    navigate("/checkout");
   };
 
   useEffect(
