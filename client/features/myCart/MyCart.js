@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchCartItemsAsync, removeCartItem, selectMyCart } from "./myCartSlice";
+import {
+  fetchCartItemsAsync,
+  removeCartItem,
+  selectMyCart,
+} from "./myCartSlice";
 import "./index.css";
 import { updateCartAsync } from "./myCartSlice";
+
+import { handleCheckoutAsync } from "./myCartSlice";
 
 const MyCart = () => {
   const dispatch = useDispatch();
@@ -14,21 +20,37 @@ const MyCart = () => {
   const guestUserJSON = window.localStorage.getItem("guestUser");
   const guestUser = guestUserJSON ? JSON.parse(guestUserJSON) : null;
 
-  useEffect(() => {
+  //todo loading screen for transition between user to logged out
+
+  const handleCheckout = (event) => {
+    event.preventDefault();
     if (userId && !guestUser) {
-      dispatch(fetchCartItemsAsync(userId));
-    } else if (guestUser) {
+      dispatch(handleCheckoutAsync({ userId }));
+    } else if (guestUser && !userId) {
       console.log(guestUser.userId);
-      dispatch(fetchCartItemsAsync(guestUser.userId));
+      dispatch(handleCheckoutAsync({ userId: guestUser.userId }));
     }
-  }, [dispatch, userId, guestUser]);
+  };
+
+  useEffect(
+    () => {
+      if (userId && !guestUser) {
+        dispatch(fetchCartItemsAsync(userId));
+      } else if (guestUser) {
+        console.log(guestUser.userId);
+        dispatch(fetchCartItemsAsync(guestUser.userId));
+      }
+    },
+    [dispatch, userId],
+    guestUser
+  );
 
   const handleRemove = (productId, event) => {
     event.preventDefault();
     if (userId && !guestUser) {
       dispatch(removeCartItem({ userId, productId }));
-    } else if (guestUser) {
-      dispatch(fetchCartItemsAsync({ userId: guestUser.userId, productId }));
+    } else if (guestUser && !userId) {
+      dispatch(removeCartItem({ userId: guestUser.userId, productId }));
     }
   };
 
@@ -73,10 +95,10 @@ const MyCart = () => {
                     style={{ width: "100px", height: "100px" }}
                   />
                   {item.stock && item.stock > 0 ? (
-                      <p>{item.stock} in stock</p>
-                    ) : (
-                      <p>Out of stock</p>
-                    )}
+                    <p>{item.stock} in stock</p>
+                  ) : (
+                    <p>Out of stock</p>
+                  )}
                 </div>
                 <div className="price-column">
                   <span style={{ margin: "10px" }}>
@@ -134,8 +156,8 @@ const MyCart = () => {
         <p>Your cart is empty</p>
       )}
       <div id="checkout-column">
-        <Link to="/checkout">
-          <button>Checkout</button>
+        <Link to={`/checkout/`}>
+          <button onClick={handleCheckout}>Checkout</button>
         </Link>
         <Link to="/products">
           <p style={{ fontSize: "20px" }}>Continue shopping</p>

@@ -49,13 +49,28 @@ export const updateCartAsync = createAsyncThunk(
 
 export const removeCartItem = createAsyncThunk(
   "removeCartItem",
-  async ({ userId, productId }) => {
+  async ({ userId }) => {
     try {
       const response = await axios.put(
         `http://localhost:8080/api/cart/${userId}`,
-        { productId }
+        { userId }
       );
       return response.data;
+    } catch (err) {
+      console.error(err.response.data);
+    }
+  }
+);
+
+export const handleCheckoutAsync = createAsyncThunk(
+  "handleCheckoutAsync",
+  async ({ userId, orderId }) => {
+    try {
+      const checkoutResponse = await axios.put(
+        `http://localhost:8080/api/cart/checkout/${userId}`,
+        { orderId }
+      );
+      return checkoutResponse;
     } catch (err) {
       console.error(err.response.data);
     }
@@ -77,6 +92,9 @@ export const myCartSlice = createSlice({
       return action.payload;
     });
     builder.addCase(removeCartItem.fulfilled, (state, action) => {
+      return action.payload;
+    });
+    builder.addCase(handleCheckoutAsync.fulfilled, (state, action) => {
       return action.payload;
     });
   },

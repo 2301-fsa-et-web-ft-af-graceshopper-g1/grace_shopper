@@ -14,12 +14,21 @@ const SingleProduct = () => {
   const { id } = useParams();
   const userId = useSelector((state) => state.auth.me.id);
 
+  const guestUserJSON = window.localStorage.getItem("guestUser");
+  const guestUser = guestUserJSON ? JSON.parse(guestUserJSON) : null;
+
   useEffect(() => {
     dispatch(fetchSingleProductAsync(id));
   }, [dispatch, id]);
 
   const handleClick = () => {
-    dispatch(addCartItemAsync({ userId: userId, productId: product.id }));
+    if (userId && !guestUser) {
+      dispatch(addCartItemAsync({ userId: userId, productId: product.id }));
+    } else if (guestUser && !userId) {
+      dispatch(
+        addCartItemAsync({ userId: guestUser.userId, productId: product.id })
+      );
+    }
     alert("Product added to cart");
   };
 
