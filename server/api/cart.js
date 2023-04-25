@@ -138,7 +138,6 @@ router.put("/:id", async (req, res, next) => {
         orderId: cart.id,
       },
     });
-    //console.log(existingItem)
     //Removing(destroying) the existing item
     await existingItem.destroy();
     //Access and return the updated cart
@@ -148,7 +147,6 @@ router.put("/:id", async (req, res, next) => {
         userId: req.params.id,
       },
     });
-    //console.log(updatedCart)
     res.send(updatedCart);
   } catch (error) {
     next(error);
