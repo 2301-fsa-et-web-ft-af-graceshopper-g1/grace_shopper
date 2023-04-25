@@ -32,6 +32,7 @@ const MyCart = () => {
       await dispatch(handleCheckoutAsync({ userId: guestUser.userId }));
       await dispatch(fetchCartItemsAsync(guestUser.userId));
     }
+    alert("Thanks for checking out!");
   };
 
   useEffect(
