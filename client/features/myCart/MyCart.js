@@ -9,6 +9,8 @@ import {
 import "./index.css";
 import { updateCartAsync } from "./myCartSlice";
 
+import { handleCheckoutAsync } from "./myCartSlice";
+
 const MyCart = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector(selectMyCart).products;
@@ -19,6 +21,10 @@ const MyCart = () => {
   const guestUser = guestUserJSON ? JSON.parse(guestUserJSON) : null;
 
   //todo loading screen for transition between user to logged out
+
+  const handleCheckout = () => {
+    dispatch(handleCheckoutAsync(userId));
+  };
 
   useEffect(
     () => {
@@ -144,8 +150,8 @@ const MyCart = () => {
         <p>Your cart is empty</p>
       )}
       <div id="checkout-column">
-        <Link to="/checkout">
-          <button>Checkout</button>
+        <Link to={`/checkout/`}>
+          <button onClick={handleCheckout}>Checkout</button>
         </Link>
         <Link to="/products">
           <p style={{ fontSize: "20px" }}>Continue shopping</p>

@@ -62,6 +62,21 @@ export const removeCartItem = createAsyncThunk(
   }
 );
 
+export const handleCheckoutAsync = createAsyncThunk(
+  "handleCheckoutAsync",
+  async ({ userId }) => {
+    try {
+      const checkoutResponse = await axios.put(
+        `http://localhost:8080/api/checkout/${userId}`,
+        { userId }
+      );
+      return checkoutResponse.checkoutDate;
+    } catch (err) {
+      console.error(err.response.data);
+    }
+  }
+);
+
 export const myCartSlice = createSlice({
   name: "cart",
   initialState: [],
@@ -77,6 +92,9 @@ export const myCartSlice = createSlice({
       return action.payload;
     });
     builder.addCase(removeCartItem.fulfilled, (state, action) => {
+      return action.payload;
+    });
+    builder.addCase(handleCheckoutAsync.fulfilled, (state, action) => {
       return action.payload;
     });
   },
