@@ -5,10 +5,10 @@ import { useDispatch } from "react-redux";
 
 const Checkout = () => {
   return (
-    <div>
-      <h1>Thanks for checking out!</h1>
+    <div id="checkout" style={{ textAlign: "center" }}>
+      <h2>Thanks for checking out!</h2>
       <Link to="/products">
-        <button>Return to Products Home Page</button>
+        <button>Continue Shopping</button>
       </Link>
     </div>
   );

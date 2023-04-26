@@ -58,7 +58,7 @@ button:hover {
   box-shadow: 2px 4px 7px rgba(0, 0, 0, 0.5);
 }
 
-form > button {
+form > button, .quantity button {
   margin: 20px;
 }
 
