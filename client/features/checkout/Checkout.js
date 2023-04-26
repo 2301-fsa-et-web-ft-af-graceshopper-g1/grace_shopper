@@ -7,8 +7,8 @@ const Checkout = () => {
   return (
     <div>
       <h1>Thanks for checking out!</h1>
-      <Link to="/">
-        <button>Click here to return home</button>
+      <Link to="/products">
+        <button>Return to Products Home Page</button>
       </Link>
     </div>
   );
