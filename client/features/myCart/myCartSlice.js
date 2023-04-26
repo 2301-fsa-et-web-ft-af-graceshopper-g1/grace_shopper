@@ -16,9 +16,9 @@ export const fetchCartItemsAsync = createAsyncThunk(
 
 export const addCartItemAsync = createAsyncThunk(
   "cartItems/add",
-  async ({ userId, productId }) => {
+  async ({ userId, productId, quantity }) => {
     try {
-      const response = await axios.post(`/api/cart/${userId}`, { productId });
+      const response = await axios.post(`/api/cart/${userId}`, { productId, quantity });
       return response.data;
     } catch (err) {
       console.error(err.response.data);
@@ -28,15 +28,13 @@ export const addCartItemAsync = createAsyncThunk(
 
 export const updateCartAsync = createAsyncThunk(
   "cartItems/edit",
-  async ({ orderId, productId, quantity }) => {
+  async ({ userId, productId, quantity }) => {
     try {
-      if (orderId) {
-        await axios.put(`/api/carts/${orderId}`, {
-          productId,
-          quantity,
-        });
-      }
-      return { productId, quantity };
+      const response = await axios.put(`/api/cart/${userId}`, {
+        productId,
+        quantity,
+      });
+      return response.data;
     } catch (err) {
       console.error(err.response.data);
       throw err;
@@ -46,9 +44,9 @@ export const updateCartAsync = createAsyncThunk(
 
 export const removeCartItem = createAsyncThunk(
   "removeCartItem",
-  async ({ userId, productId }) => {
+  async ({ userId, productId, remove }) => {
     try {
-      const response = await axios.put(`/api/cart/${userId}`, { productId });
+      const response = await axios.put(`/api/cart/${userId}`, { productId, remove });
       return response.data;
     } catch (err) {
       console.error(err.response.data);
@@ -82,7 +80,7 @@ export const myCartSlice = createSlice({
       return action.payload;
     });
     builder.addCase(updateCartAsync.fulfilled, (state, action) => {
-      return action.payload;
+      return action.payload.products;
     });
     builder.addCase(removeCartItem.fulfilled, (state, action) => {
       return action.payload;

@@ -68,39 +68,12 @@ router.get("/:id", async (req, res, next) => {
     } else {
       res.send(order);
     }
-    // if (order) {
-    //   res.send(order);
-    // } else {
-    //   res.sendStatus(404);
-    // }
   } catch (error) {
     next(error);
   }
 });
 
-//THESE ROUTES DO NOT WORK YET
-
-//GET cart by the orderId
-// router.get("/testing/:id", async (req, res, next) => {
-//   try {
-//     //GET an order and its user
-//     const cart = await Order.findOne({
-//       include: [
-//         { model: User, attributes: ["id", "username"] },
-//         { model: Product },
-//       ],
-//       where: {
-//         userId: req.params.id,
-//         checkoutDate: null,
-//       },
-//     });
-//     res.send(cart);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
-
-//Adding a product to the cart (POST)
+// Adding a product to the cart (POST)
 router.post("/:id", async (req, res, next) => {
   try {
     const cart = await Order.findOne({
@@ -128,11 +101,12 @@ router.post("/:id", async (req, res, next) => {
         orderId: cart.id,
         productId: product.id,
         price: product.price,
+        quantity: req.body.quantity,
       });
       //If the item does exist, increase its quantity by 1
     } else {
       await existingItem.update({
-        quantity: existingItem.quantity + 1,
+        quantity: existingItem.quantity + req.body.quantity,
       });
     }
     //Access and send the updated cart
@@ -146,16 +120,13 @@ router.post("/:id", async (req, res, next) => {
         checkoutDate: null,
       },
     });
-    //console.log(updatedCart)
     res.send(updatedCart);
-    // res.send(cart);
-    // res.send(existingItem);
   } catch (error) {
     next(error);
   }
 });
 
-//Editing our cart (removing item/ updating quantity?)
+// Editing our cart (removing item/updating quantity)
 router.put("/:id", async (req, res, next) => {
   try {
     const cart = await Order.findOne({
@@ -171,9 +142,16 @@ router.put("/:id", async (req, res, next) => {
         orderId: cart.id,
       },
     });
-    //Removing(destroying) the existing item
-    await existingItem.destroy();
-    //Access and return the updated cart
+    if (req.body.quantity) {
+      // Update the quantity of the existing item
+      existingItem.quantity = req.body.quantity;
+      await existingItem.save();
+    }
+    if (req.body.remove) {
+      // Removing (destroying) the existing item
+      await existingItem.destroy();
+    }
+    // Access and return the updated cart
     const updatedCart = await Order.findOne({
       include: [
         { model: User, attributes: ["id", "username"] },

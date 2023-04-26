@@ -45,7 +45,7 @@ async function seed() {
   });
 
   // Creating past orders for Amy and Stacy
-  const otherOrders = await Promise.all([
+  const pastOrders = await Promise.all([
     await Order.create({
       userId: 4,
       guest: false,
@@ -58,7 +58,7 @@ async function seed() {
     }
     ),
   ]);
-  console.log(`seeded ${otherOrders.length} other orders`);
+  console.log(`seeded ${pastOrders.length} past orders`);
 
   // Creating Products
   async function seedProducts() {

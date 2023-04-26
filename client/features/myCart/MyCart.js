@@ -3,13 +3,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import {
   fetchCartItemsAsync,
+  updateCartAsync,
   removeCartItem,
+  handleCheckoutAsync,
   selectMyCart,
 } from "./myCartSlice";
 import "./index.css";
-import { updateCartAsync } from "./myCartSlice";
-
-import { handleCheckoutAsync } from "./myCartSlice";
 
 const MyCart = () => {
   const dispatch = useDispatch();
@@ -52,9 +51,9 @@ const MyCart = () => {
   const handleRemove = (productId, event) => {
     event.preventDefault();
     if (userId && !guestUser) {
-      dispatch(removeCartItem({ userId, productId }));
+      dispatch(removeCartItem({ userId, productId, remove: true, }));
     } else if (guestUser && !userId) {
-      dispatch(removeCartItem({ userId: guestUser.userId, productId }));
+      dispatch(removeCartItem({ userId: guestUser.userId, productId, remove: true }));
     }
   };
 
@@ -63,22 +62,41 @@ const MyCart = () => {
   }, [cartItems]);
 
   const handleQuantityChange = (productId, quantity) => {
-    dispatch(updateCartAsync({ productId, quantity })).then(() => {
-      const itemIndex = memoCartItems.findIndex(
-        (item) => item.id === productId
-      );
-      if (itemIndex !== -1) {
-        const updatedCartItems = [...memoCartItems];
-        updatedCartItems[itemIndex] = {
-          ...updatedCartItems[itemIndex],
-          order_product: {
-            ...updatedCartItems[itemIndex].order_product,
-            quantity,
-          },
-        };
-        setMemoCartItems(updatedCartItems);
-      }
-    });
+    if (userId && !guestUser) {
+      dispatch(updateCartAsync({ userId, productId, quantity })).then(() => {
+        const itemIndex = memoCartItems.findIndex(
+          (item) => item.id === productId
+        );
+        if (itemIndex !== -1) {
+          const updatedCartItems = [...memoCartItems];
+          updatedCartItems[itemIndex] = {
+            ...updatedCartItems[itemIndex],
+            order_product: {
+              ...updatedCartItems[itemIndex].order_product,
+              quantity,
+            },
+          };
+          setMemoCartItems(updatedCartItems);
+        }
+      });
+    } else if (guestUser && !userId) {
+      dispatch(updateCartAsync({ userId: guestUser.userId, productId, quantity })).then(() => {
+        const itemIndex = memoCartItems.findIndex(
+          (item) => item.id === productId
+        );
+        if (itemIndex !== -1) {
+          const updatedCartItems = [...memoCartItems];
+          updatedCartItems[itemIndex] = {
+            ...updatedCartItems[itemIndex],
+            order_product: {
+              ...updatedCartItems[itemIndex].order_product,
+              quantity,
+            },
+          };
+          setMemoCartItems(updatedCartItems);
+        }
+      });
+    }
   };
 
   return (
@@ -157,12 +175,14 @@ const MyCart = () => {
           </h3>
         </div>
       ) : (
-        <p>Your cart is empty</p>
+          <p style={{ textAlign: "center" }}>Your cart is empty</p>
       )}
       <div id="checkout-column">
-        <Link to={`/checkout/`}>
-          <button onClick={handleCheckout}>Checkout</button>
-        </Link>
+        {memoCartItems && memoCartItems.length ? (
+          <Link to={`/checkout/`}>
+            <button onClick={handleCheckout}>Checkout</button>
+          </Link>
+        ) : null}
         <Link to="/products">
           <p style={{ fontSize: "20px" }}>Continue shopping</p>
         </Link>
